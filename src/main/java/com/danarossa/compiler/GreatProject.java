@@ -55,14 +55,13 @@ public class GreatProject extends Application {
 
   public static void main(String[] args) {
     Application.launch(args);
-//    testthetokensreader();
 //    Program program = testthelexicalAnalyzer();
 //    testSyntscticalAnalyzer(program);
 //    testSyntsctical2Analyzer(program);
   }
 
   private static void testSyntsctical2Analyzer(Program program) {
-    File MPAFile = new File("D:\\Projects\\3course\\compilers\\MPA.xlsx");
+    File MPAFile = new File("C:\\Users\\Bogdana Iurchienko\\Desktop\\Book3.xlsx");
     try {
       StatesController statesController = new StatesController(MPAFile);
       SyntaxAnalyzer2 analyzer = new SyntaxAnalyzer2(program, statesController);
@@ -92,12 +91,13 @@ public class GreatProject extends Application {
   }
 
   private static Program testthelexicalAnalyzer() {
-    File tokensFile = new File("C:\\Users\\Bogdana Iurchienko\\Desktop\\tokens.txt");
-    File programFile = new File("C:\\Users\\Bogdana Iurchienko\\Desktop\\programTest.txt");
+    File tokensFile = new File("C:\\Users\\Bogdana Iurchienko\\Desktop\\денис\\tokens.txt");
+    File programFile = new File("C:\\Users\\Bogdana Iurchienko\\Desktop\\денис\\programTest.txt");
     TokensReader tokensReader;
 
     try (Scanner s = new Scanner(tokensFile)) {
       tokensReader = new TokensReader(s);
+      System.out.println(tokensReader);
       Program program = new Program();
       program.setTableOfTokens(tokensReader.getMapOfTokens());
       Reader reader = new StringReader(openSourceCode(programFile));
@@ -116,17 +116,6 @@ public class GreatProject extends Application {
       System.out.println("File not found, Try another file, please");
     }
     return null;
-  }
-
-  private static void testthetokensreader() {
-    File file = new File("C:\\Users\\Bogdana Iurchienko\\Desktop\\tokensTest.txt");
-    try (Scanner s = new Scanner(file)) {
-      TokensReader tokensReader = new TokensReader(s);
-      System.out.println(tokensReader.getTokensText());
-      System.out.println(tokensReader);
-    } catch (FileNotFoundException ex) {
-      System.out.println("File not found, Try another file, please");
-    }
   }
 
   private static String openSourceCode(File programFile){

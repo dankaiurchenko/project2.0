@@ -13,9 +13,13 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -30,41 +34,6 @@ public class ViewController {
   private TokensReader tokensReader;
   private boolean lastLexical;
   private ObservableList<CompilerException> exceptions = FXCollections.observableArrayList();
-
-    //таблиця розпарсених лексем
-  @FXML private TableView<Program.Token> tokensTable;
-  @FXML private TableColumn<Program.Token, Integer> tokenNumberColumn;
-  @FXML private TableColumn<Program.Token, Integer> tokenLineColumn;
-  @FXML private TableColumn<Program.Token, String>  tokenTokenColumn;
-  @FXML private TableColumn<Program.Token, Integer> tokenCodeColumn;
-  @FXML private TableColumn<Program.Token, Integer> tokenConstantCodeColumn;
-  @FXML private TableColumn<Program.Token, Integer> tokenIdentifierCodeColumn;
-
-  // таблиця виключень
-  @FXML private TableView<CompilerException> exceptionsTable;
-  @FXML private TableColumn<CompilerException, Integer> exceptionNumberColumn;
-  @FXML private TableColumn<CompilerException, String> exceptionMessageColumn;
-  @FXML private TableColumn<CompilerException, Integer> exceptionLineColumn;
-  @FXML private TableColumn<CompilerException, String> exceptionTokenColumn;
-  @FXML private TableColumn<CompilerException, String> exceptionAnalyzerColumn;
-
-  // таблиця констант
-  @FXML private TableView<Program.Const> constantsTable;
-  @FXML private TableColumn<Program.Const, Integer> constantNumberColumn;
-  @FXML private TableColumn<Program.Const, Number> constantValueColumn;
-
-  // таблиця ідентифікаторів
-  @FXML private TableView<Program.Identifier> identifiersTable;
-  @FXML private TableColumn<Program.Identifier, Integer> identifierNumberColumn;
-  @FXML private TableColumn<Program.Identifier, Integer> identifierNameColumn;
-  @FXML private TableColumn<Program.Identifier, String> identifierTypeColumn;
-
-  // таблиця переходів
-  @FXML private TableView<SyntaxAnalyzer2.dumpState> transitionTable;
-  @FXML private TableColumn<SyntaxAnalyzer2.dumpState, Integer> transitionNumberColumn;
-  @FXML private TableColumn<SyntaxAnalyzer2.dumpState, Integer> transitionStateColumn;
-  @FXML private TableColumn<SyntaxAnalyzer2.dumpState, String> transitionTokenColumn;
-  @FXML private TableColumn<SyntaxAnalyzer2.dumpState, String> transitionStackValueColumn;
 
   // таблиця конфігурації
   @FXML private TableView<StatesController.Transition> transitionConfigurationsTable;
@@ -176,7 +145,7 @@ public class ViewController {
     program = null;
     saveTablesMenu.setDisable(true);
     sourceCodeArea.setDisable(true);
-    clearTables();
+//    clearTables();
     setMenusProgram(true);
     setMenusInputTokens(true);
     setMenusInputTransitions(true);
@@ -188,7 +157,7 @@ public class ViewController {
     } else if(tokensReader == null || tokensReader.getTableOfTokens().isEmpty()){
       showErrorDialog("Lexical Analyzer Error occurred", "Please, check out the input table of tokens");
     }else {
-      clearTables();
+//      clearTables();
       program.cleanup().setTableOfTokens(tokensReader.getMapOfTokens());
       executeAnalysis(new LexicalAnalyzer(new StringReader(sourceCodeArea.getText()), program), "Lexical analysis done successfully");
       showTokens();
@@ -272,32 +241,35 @@ public class ViewController {
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
     alert.getDialogPane().setMinWidth(600);
     setAlertIcon(alert);
-    alert.setTitle("BGDN programming language");
+    alert.setTitle("Programming language");
     alert.setHeaderText("Language syntax");
-    alert.setContentText("<program> ::= <type> id {, id} {; <type> <ids list>} { <operator>;{<operator>;}}\n" +
-            "<type> ::=  float | int\n" +
-            "<operator> ::= <cycle> | <fork> | id = <expression> | <input> | <output>\n" +
-            "<cycle> ::=  for <id>=<expression> to <expression> do <operator>;{<operator>;} end\n" +
-            "<fork> ::= if <expression> <relation type>  <expression> then <operator> else <operator>\n" +
-            "<input> ::= read( <ids list> )\n" +
-            "<output> ::= write( <ids list> )\n" +
-            "<relation type> ::= < | > | <= | >= | == | !=\n" +
-            "<expression> ::= <T>{ + <T> |  - <T> }\n" +
-            "<T> ::= <F> {* <F> |  / <F>}\n" +
-            "<F> ::= id | const | (<expression>)");
-    alert.showAndWait();
-  }
-
-  public void showAboutProgram(){
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    setAlertIcon(alert);
-    alert.setTitle("BGDN programming language");
-    alert.setHeaderText(null);
-    alert.setContentText("BGDN programming language compiler.\n" +
-            "Version 1.0\n" +
-            "Ukraine, Kiev, KPI 2018\n" +
-            "Iurchienko Bogdana\n" +
-            "danarossa14@gmail.com");
+    alert.setContentText("<Prog>::= Program  Ident  <DeclarationList>  \\{ <OperatorsList> \\}\n" +
+            "\n" +
+            "<DeclarationList>::=  <Declaration> { ; <Declaration> }\n" +
+            "<Declaration>::= <Type> <IdentList>\n" +
+            "<Type>::= integer | short | label\n" +
+            "<IdentList>::= Ident  { , Ident }\n" +
+            "\n" +
+            "<OperatorsList>::= <Operator> { ; <Operator> }\n" +
+            "<Operator>::= <AssignmentOrTagging> | <Input> | <Output> | <Loop> | <Condition> | <UnconditionalTransition> | <Range>\n" +
+            "<AssignmentOrTagging>::= Ident  ( = <Exp>  | : )\n" +
+            "<Input>::= readLine(<IdentList>)\n" +
+            "<Output>::= writeLine(<IdentList>)\n" +
+            "<Loop>::= do <OperatorsList> while <LogicExp> \n" +
+            "<Condition>::= if <Attitude> then <UnconditionalTransition>\n" +
+            "<UnconditionalTransition> :: = goto Ident\n" +
+            "<Range>::=<Exp>..<Exp>\n" +
+            "\n" +
+            "<LogExp>::=  <LogTerm> { or <LogTerm> }\n" +
+            "<LogTerm>::=  <LogMulti> { and <LogMulti>}\n" +
+            "<LogMulti::= <Attitude> | [<LogExp>] | not <LogMulti>\n" +
+            "<Attitude>::= <Exp> <ExpSign> <Exp>\n" +
+            "<ExpSign>:: = > | < | >= | <= | == | !=\n" +
+            "\n" +
+            "<Exp>::= ( - | ^)<Term>( + <Term>|  - <Term> )\n" +
+            "<Term>::= <Multi>(  * <Multi> |  / <Multi> )\n" +
+            "<Multi>::=  <PrimaryExp> { ** <PrimaryExp>}\n" +
+            "<PrimaryExp>::= (<Exp>) | Ident | Const\n");
     alert.showAndWait();
   }
 
@@ -309,9 +281,6 @@ public class ViewController {
       System.out.println("icon not found");
     }  }
 
-
-
-
   private void showErrorDialog(String message, String solution){
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setTitle("Error!");
@@ -322,49 +291,80 @@ public class ViewController {
   }
 
   private void showExceptions(){
-    exceptionsTable.getItems().clear();
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+              .getResource("/ExceptionsView.fxml"));
+      fxmlLoader.setControllerFactory(c -> new ExceptionsController(this.exceptions));
+      AnchorPane root = fxmlLoader.load();
+      Scene scene = new Scene(root, 900, 300);
+      Stage stage = new Stage();
+      stage.setTitle("Exceptions table");
+      stage.setScene(scene);
+      ((ExceptionsController)fxmlLoader.getController()).show();
+      stage.show();
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
+      showErrorDialog("Error occurred" , "Try later");
 
-    exceptionsTable.setItems(exceptions);
-    exceptionNumberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
-    exceptionMessageColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
-    exceptionLineColumn.setCellValueFactory(new PropertyValueFactory<>("line"));
-    exceptionAnalyzerColumn.setCellValueFactory(new PropertyValueFactory<>("analyzer"));
-    exceptionTokenColumn.setCellValueFactory(new PropertyValueFactory<>("token"));
+    }
   }
 
   private void showTokens(){
-    tokensTable.getItems().clear();
-
-    if(!program.getTokens().isEmpty()){
-      //заповнюємо таблиці токенів, ід, конст
-      tokensTable.setItems(program.getTokens());
-      tokenCodeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
-      tokenConstantCodeColumn.setCellValueFactory(new PropertyValueFactory<>("constantCode"));
-      tokenIdentifierCodeColumn.setCellValueFactory(new PropertyValueFactory<>("idCode"));
-      tokenLineColumn.setCellValueFactory(new PropertyValueFactory<>("line"));
-      tokenNumberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
-      tokenTokenColumn.setCellValueFactory(new PropertyValueFactory<>("token"));
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+              .getResource("/TokensView.fxml"));
+      fxmlLoader.setControllerFactory(c -> new TokensController(program.getTokens()));
+      AnchorPane root = fxmlLoader.load();
+      Scene scene = new Scene(root, 600, 400);
+      Stage stage = new Stage();
+      stage.setTitle("Tokens table");
+      stage.setScene(scene);
+      ((TokensController)fxmlLoader.getController()).show();
+      stage.show();
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
+      showErrorDialog("Error occurred" , "Try later");
     }
+
   }
 
   private void showConstants(){
-    //System.out.println(program.getConstants());
-    constantsTable.getItems().clear();
-    if(!program.getConstants().isEmpty()){
-      constantsTable.setItems(program.getConstants());
-      constantNumberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
-      constantValueColumn.setCellValueFactory(new PropertyValueFactory<>("token"));
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+              .getResource("/ConstantsView.fxml"));
+      fxmlLoader.setControllerFactory(c -> new ConstantsController(program.getConstants()));
+      AnchorPane root = fxmlLoader.load();
+      Scene scene = new Scene(root, 300, 200);
+      Stage stage = new Stage();
+      stage.setTitle("Constants table");
+      stage.setScene(scene);
+      ((ConstantsController)fxmlLoader.getController()).show();
+      stage.show();
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
+      showErrorDialog("Error occurred" , "Try later");
     }
+
   }
 
   private void showIDs(){
-    identifiersTable.getItems().clear();
-    if(!program.getIdentifiers().isEmpty()){
-      identifiersTable.setItems(program.getIdentifiers());
-      identifierNameColumn.setCellValueFactory(new PropertyValueFactory<>("token"));
-      identifierNumberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
-      identifierTypeColumn.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+              .getResource("/IdentifiersView.fxml"));
+      fxmlLoader.setControllerFactory(c -> new IdentifiersController(program.getIdentifiers()));
+      AnchorPane root = fxmlLoader.load();
+      Scene scene = new Scene(root, 300, 200);
+      Stage stage = new Stage();
+      stage.setTitle("Identifiers table");
+      stage.setScene(scene);
+      ((IdentifiersController)fxmlLoader.getController()).show();
+      stage.show();
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
+      showErrorDialog("Error occurred" , "Try later");
+
     }
+
 
   }
 
@@ -383,27 +383,23 @@ public class ViewController {
   }
 
   private void showTransitions(){
-    transitionTable.getItems().clear();
-
-//    System.out.println(program.getTransitionTable());
-    if(!program.getTransitionTable().isEmpty()){
-      //заповнюємо таблиці токенів, ід, конст
-      transitionTable.setItems(program.getTransitionTable());
-      transitionNumberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
-      transitionStateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
-      transitionTokenColumn.setCellValueFactory(new PropertyValueFactory<>("token"));
-      transitionStackValueColumn.setCellValueFactory(new PropertyValueFactory<>("stackValue"));
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+              .getResource("/TransitionsView.fxml"));
+      fxmlLoader.setControllerFactory(c -> new TransitionsController(program.getTransitionTable()));
+      GridPane root = fxmlLoader.load();
+      Scene scene = new Scene(root, 900, 600);
+      Stage stage = new Stage();
+      stage.setTitle("Table of transitions");
+      stage.setScene(scene);
+      stage.getIcons().add(new Image("/assets/calendar-icon.png"));
+      stage.show();
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
+      showErrorDialog("Error occurred" , "Try later");
     }
+
   }
-
-  private void clearTables(){
-    identifiersTable.getItems().clear();
-    constantsTable.getItems().clear();
-    tokensTable.getItems().clear();
-    transitionTable.getItems().clear();
-  }
-
-
 
   private void setMenusProgram(boolean value){
     closeProjectMenu.setDisable(value);
@@ -424,10 +420,8 @@ public class ViewController {
     runSyntaxAnalyzer2Menu.setDisable(value);
   }
 
-
-
   private void prepareForNewProject(File file, String message){
-    clearTables();
+//    clearTables();
     sourceCodeArea.clear();
     program = new Program();
     fileWriter = new FileWriter(program, exceptions);
@@ -453,7 +447,7 @@ public class ViewController {
   }
 
   private void executeAnalysis(AbstractAnalyzer analyzer, String successMessage){
-    exceptionsTable.getItems().clear();
+//    exceptionsTable.getItems().clear();
     this.exceptions.clear();
     if(analyzer.analyze()){
       setStatusLabel(successMessage);

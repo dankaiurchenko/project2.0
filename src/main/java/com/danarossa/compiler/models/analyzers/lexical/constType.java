@@ -3,15 +3,24 @@ package com.danarossa.compiler.models.analyzers.lexical;
 import java.io.Serializable;
 
 public enum constType implements Serializable {
-  INT(1),
-  DOUBLE(2);
+  PROGRAM("Program"),
+  INTEGER("integer"),
+  SHORT("short"),
+  LABEL("label");
 
-  constType(int code) {
-    this.code = code;
+  constType(String name) {
+    this.name = name;
   }
 
-  public int getCode() {
-    return code;
+  private final String name;
+
+  static public constType getType(String token) {
+    if (PROGRAM.name.equals(token)) return PROGRAM;
+    if (INTEGER.name.equals(token)) return INTEGER;
+    if (SHORT.name.equals(token)) return SHORT;
+    if (LABEL.name.equals(token)) return LABEL;
+    return null;
   }
-  private final int code;
+
+
 }

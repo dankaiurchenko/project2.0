@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danarossa.compiler.controllers.TransitionsController">
+   <children>
+      <TableView fx:id="transitionTable" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <columns>
+            <TableColumn fx:id="transitionNumberColumn" maxWidth="100.0" minWidth="50.0" prefWidth="-1.0" text="N" />
+            <TableColumn fx:id="transitionTokenColumn" maxWidth="150.0" minWidth="100.0" prefWidth="-1.0" text="Input Token" />
+            <TableColumn fx:id="transitionStateColumn" editable="false" maxWidth="150.0" minWidth="200.0" prefWidth="-1.0" sortable="false" text="State" />
+            <TableColumn fx:id="transitionStackValueColumn" maxWidth="500.0" minWidth="200.0" prefWidth="-1.0" text="Stack" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </children>
+</AnchorPane>

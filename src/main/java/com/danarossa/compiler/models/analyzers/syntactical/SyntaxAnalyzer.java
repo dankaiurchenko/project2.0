@@ -13,18 +13,22 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
   }
 
   public boolean analyze() {
-    if (analyzeDeclarationList()) {
-      if (nextTokenEqualTo("{")) {
-        if (analyzeOperatorsList()) {
-          if (nextTokenEqualTo("}")) {
-            //System.out.println("current token " + currentToken + " size  " + program.getTokens().size());
-            if (currentToken == program.getTokens().size()) {
-              return true;
-            } else addException("End of program expected");
-          } else addException("The ending curve brace is missing");
-        } else addException("There is the problem in operators list");
-      } else addException("The beginning curve brace is missing");
-    } else addException("There is the problem in declaration list");
+    if (nextTokenEqualTo("Program")) {
+      if (nextTokenEqualTo("Ident")) {
+        if (analyzeDeclarationList()) {
+          if (nextTokenEqualTo("{")) {
+            if (analyzeOperatorsList()) {
+              if (nextTokenEqualTo("}")) {
+                //System.out.println("current token " + currentToken + " size  " + program.getTokens().size());
+                if (currentToken == program.getTokens().size()) {
+                  return true;
+                } else addException("End of program expected");
+              } else addException("The ending curve brace is missing");
+            } else addException("There is the problem in operators list");
+          } else addException("The beginning curve brace is missing");
+        } else addException("There is the problem in declaration list");
+      } else addException("The name of the program missing");
+    } else addException("A 'Program' at the beginning missing");
     return false;
   }
 
@@ -42,18 +46,18 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
   }
 
   private boolean analyzeDeclaration() {
-    if (analyzeVariableType()) {
-      if (analyzeIdentifiersList()) {
+    if (analyzeType()) {
+      if (analyzeIdentList()) {
         return true;
       } else addException("There is problem in identifier list");
     } else addException("There is problem with variable type");
     return false;
   }
 
-  private boolean analyzeIdentifiersList() {
-    if (nextTokenEqualTo("identifier")) {
+  private boolean analyzeIdentList() {
+    if (nextTokenEqualTo("Ident")) {
       while (nextTokenEqualTo(",")) {
-        if (!nextTokenEqualTo("identifier")) {
+        if (!nextTokenEqualTo("Ident")) {
           addException("Last identifier is missing");
           return false;
         }
@@ -63,10 +67,12 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
     return false;
   }
 
-  private boolean analyzeVariableType() {
-    if (nextTokenEqualTo("int")) {
+  private boolean analyzeType() {
+    if (nextTokenEqualTo("integer")) {
       return true;
-    } else return nextTokenEqualTo("double");
+    } else if (nextTokenEqualTo("short")) {
+      return true;
+    } else return nextTokenEqualTo("label");
   }
 
   private boolean analyzeOperatorsList() {
@@ -83,13 +89,19 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
   }
 
   private boolean analyzeOperator() {
-    if (analyzeCircle()) {
+    if (analyzeLoop()) {
       return true;
-    } else if (analyzeFork()) {
+    } else if (analyzeCondition()) {
       return true;
-    } else if (analyzeAssignment()) {
+    } else if (analyzeAssignmentOrTagging()) {
       return true;
     } else if (analyzeInput()) {
+      return true;
+    } else if (analyzeTagging()) {
+      return true;
+    } else if (analyzeUnconditionalTransition()) {
+      return true;
+    } else if (analyzeRange()) {
       return true;
     } else if (analyzeOutput()) {
       return true;
@@ -97,10 +109,39 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
     return false;
   }
 
+  private boolean analyzeRange() {
+    if(analyzeExp()){
+      if(nextTokenEqualTo("..")){
+        if(analyzeExp()){
+          return true;
+        }else addException("An expression problem");
+      }else addException("An '..' is missing");
+    }
+    return false;
+  }
+
+  private boolean analyzeUnconditionalTransition() {
+    if(nextTokenEqualTo("goto")){
+      if(nextTokenEqualTo("Ident")){
+        return true;
+      } else addException("An label identifier is missing");
+    }
+    return false;
+  }
+
+  private boolean analyzeTagging() {
+    if(nextTokenEqualTo("Ident")){
+      if(nextTokenEqualTo(":")){
+        return true;
+      }else addException("An ':' is missing");
+    }
+    return false;
+  }
+
   private boolean analyzeOutput() {
-    if (nextTokenEqualTo("write")) {
+    if (nextTokenEqualTo("writeLine")) {
       if (nextTokenEqualTo("(")) {
-        if (analyzeIdentifiersList()) {
+        if (analyzeIdentList()) {
           if (nextTokenEqualTo(")")) {
             return true;
           } else addException("The ending brace is missing");
@@ -111,9 +152,9 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
   }
 
   private boolean analyzeInput() {
-    if (nextTokenEqualTo("read")) {
+    if (nextTokenEqualTo("readLine")) {
       if (nextTokenEqualTo("(")) {
-        if (analyzeIdentifiersList()) {
+        if (analyzeIdentList()) {
           if (nextTokenEqualTo(")")) {
             return true;
           } else addException("The ending brace is missing");
@@ -124,57 +165,40 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
   }
 
 
-  private boolean analyzeAssignment() {
+  private boolean analyzeAssignmentOrTagging() {
     //TODO навзви ексепшенів
-    if (nextTokenEqualTo("identifier")) {
+    if (nextTokenEqualTo("Ident")) {
       if (nextTokenEqualTo("=")) {
-        if (analyzeSecondPartOfAssignment()) {
+        if (analyzeExp()) {
           return true;
-        } else addException("Second part assignment problem");
-      } else addException("An '=' is missing");
+        } else addException("Expression problem");
+      } else if(nextTokenEqualTo(":")) {
+        return true;
+      } else addException("An ':' or '=' is missing");
     }
     return false;
   }
 
-  private Boolean analyzeSecondPartOfAssignment() {
-    //TODO навзви ексепшенів
-    if (analyzeExpression()) {
-      return true;
-    } else if (nextTokenEqualTo("?")) {
-      if (analyzeLogicalExpression()) {
-        if (nextTokenEqualTo("?")) {
-          if (analyzeExpression()) {
-            if (nextTokenEqualTo(":")) {
-              return analyzeExpression();
-            } else addException("An \":\" is missing");
-          } else addException("There is an expression problem");
-        } else addException("An inner \"?\" is missing");
-      } else addException("There is an logical expression problem");
-    }
-    return false;
-  }
-
-
-  private boolean analyzeExpression() {
+  private boolean analyzeExp() {
     boolean minus = nextTokenEqualTo("-");
-    if (analyzeT()) {
+    if (analyzeTerm()) {
       while (nextTokenEqualTo("+") || nextTokenEqualTo("-")) {
-        if (!analyzeT()) {
+        if (!analyzeTerm()) {
           addException("There is an expression problem");
           return false;
         }
       }
       return true;
     }
-    if(minus) addException("minus is not needed");
+    if (minus) addException("minus is not needed");
     return false;
   }
 
-  private boolean analyzeT() {
-    if (analyzeF()) {
+  private boolean analyzeTerm() {
+    if (analyzeMulti()) {
       while (nextTokenEqualTo("*") || nextTokenEqualTo("/")) {
-        if (!analyzeF()) {
-          addException("There is an expression (F) problem");
+        if (!analyzeMulti()) {
+          addException("There is an expression (Multi) problem");
           return false;
         }
       }
@@ -183,13 +207,27 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
     return false;
   }
 
-  private boolean analyzeF() {
-    if (nextTokenEqualTo("identifier")) {
+  private boolean analyzeMulti() {
+    if (analyzePrimaryExp()) {
+      while (nextTokenEqualTo("**") ) {
+        if (!analyzePrimaryExp()) {
+          addException("There is an PrimaryExp problem");
+          return false;
+        }
+      }
       return true;
-    } else if (nextTokenEqualTo("constant")) {
+    }
+    return false;
+  }
+
+
+  private boolean analyzePrimaryExp() {
+    if (nextTokenEqualTo("Ident")) {
+      return true;
+    } else if (nextTokenEqualTo("Const")) {
       return true;
     } else if (nextTokenEqualTo("(")) {
-      if (analyzeExpression()) {
+      if (analyzeExp()) {
         if (nextTokenEqualTo(")")) {
           return true;
         } else addException("An ending brace is missing");
@@ -199,28 +237,26 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
   }
 
 
-  private boolean analyzeFork() {
+  private boolean analyzeCondition() {
     //TODO назви ексепшенів
     if (nextTokenEqualTo("if")) {
-      if (analyzeLogicalExpression()) {
+      if (analyzeAttitude()) {
         if (nextTokenEqualTo("then")) {
-          if (analyzeOperatorsList()) {
-            if (nextTokenEqualTo("fi")) {
+          if (analyzeUnconditionalTransition()) {
               return true;
-            } else addException("An 'fi' at the end of a fork operator is missing");
-          } else addException("The operator is missing");
+          } else addException("Problem with unconditional transition");
         } else addException("An 'then' in fork operator is missing");
-      } else addException("There is a logical expression problem");
+      } else addException("There is an attitude problem");
     }
     return false;
   }
 
-  private boolean analyzeLogicalExpression() {
+  private boolean analyzeLogExp() {
     //TODO навзви ексепшенів
-    if (analyzeLT()) {
-      while (nextTokenEqualTo("OR")) {
-        if (!analyzeLT()) {
-          addException("Last 'OR' part is missing");
+    if (analyzeLogTerm()) {
+      while (nextTokenEqualTo("or")) {
+        if (!analyzeLogTerm()) {
+          addException("Last 'or' part is missing");
           return false;
         }
       }
@@ -229,12 +265,12 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
     return false;
   }
 
-  private boolean analyzeLT() {
+  private boolean analyzeLogTerm() {
     //TODO навзви ексепшенів
-    if (analyzeLM()) {
-      while (nextTokenEqualTo("AND")) {
-        if (!analyzeLM()) {
-          addException("Last 'AND' part is missing");
+    if (analyzeLogMulti()) {
+      while (nextTokenEqualTo("and")) {
+        if (!analyzeLogMulti()) {
+          addException("Last 'and' part is missing");
           return false;
         }
       }
@@ -243,22 +279,22 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
     return false;
   }
 
-  private boolean analyzeLM() {
-    if (nextTokenEqualTo("NOT")) {
-      return analyzeLM();
+  private boolean analyzeLogMulti() {
+    if (nextTokenEqualTo("not")) {
+      return analyzeLogMulti();
     } else if (nextTokenEqualTo("[")) {
-      if (analyzeLogicalExpression()) {
+      if (analyzeLogExp()) {
         return nextTokenEqualTo("]");
       }
-    } else return analyzeLogicalRelation();
+    } else return analyzeAttitude();
     return false;
   }
 
-  private boolean analyzeLogicalRelation() {
+  private boolean analyzeAttitude() {
     // TODO
-    if (analyzeExpression()) {
-      if (analyzeLogicalRelationType()) {
-        if (analyzeExpression()) {
+    if (analyzeExp()) {
+      if (analyzeExpSign()) {
+        if (analyzeExp()) {
           return true;
         } else addException("There is an expression problem in logical relation");
       } else addException("There is a relation type problem");
@@ -266,7 +302,7 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
     return false;
   }
 
-  private boolean analyzeLogicalRelationType() {
+  private boolean analyzeExpSign() {
     if (nextTokenEqualTo("<")) {
       return true;
     } else if (nextTokenEqualTo(">")) {
@@ -280,22 +316,16 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
     } else return nextTokenEqualTo("!=");
   }
 
-  private boolean analyzeCircle() {
+  private boolean analyzeLoop() {
     //TODO назви ексепшенів
     if (nextTokenEqualTo("do")) {
-      if (nextTokenEqualTo("while")) {
-        if (nextTokenEqualTo("(")) {
-          if (analyzeLogicalExpression()) {
-            if (nextTokenEqualTo(")")) {
-              if (analyzeOperatorsList()) {
-                if (nextTokenEqualTo("enddo")) {
-                  return true;
-                } else addException("An 'enddo' in the end of circle operator is missing");
-              } else addException("An operator is missing");
-            } else addException("An ending brace is missing");
+      if (analyzeOperatorsList()) {
+        if (nextTokenEqualTo("while")) {
+          if (analyzeLogExp()) {
+            return true;
           } else addException("There is an logical expression problem");
-        } else addException("An opening brace is missing");
-      } else addException("An 'while' is missing");
+        } else addException("An 'while' is missing");
+      } else addException("Problem with operators list");
     }
     return false;
   }

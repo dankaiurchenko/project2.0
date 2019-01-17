@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danarossa.compiler.controllers.ExceptionsController">
+   <children>
+      <TableView fx:id="exceptionsTable" layoutX="106.0" layoutY="10.0" prefHeight="400.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <columns>
+            <TableColumn fx:id="exceptionNumberColumn" minWidth="20.0" prefWidth="-1.0" text="N" />
+            <TableColumn fx:id="exceptionMessageColumn" minWidth="400.0" prefWidth="-1.0" text="Exception" />
+            <TableColumn fx:id="exceptionLineColumn" minWidth="50.0" prefWidth="-1.0" text="Line" />
+            <TableColumn fx:id="exceptionTokenColumn" minWidth="70.0" prefWidth="-1.0" text="Token" />
+            <TableColumn fx:id="exceptionAnalyzerColumn" minWidth="70.0" prefWidth="-1.0" text="Analyzer" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </children>
+</AnchorPane>

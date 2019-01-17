@@ -1,6 +1,7 @@
 com\danarossa\compiler\models\analyzers\lexical\Exceptions\EndOfFileException.class
 com\danarossa\compiler\models\analyzers\syntactical2\SyntaxAnalyzer2.class
 com\danarossa\compiler\controllers\ViewController.class
+com\danarossa\compiler\models\analyzers\lexical\StatesController$Transition.class
 com\danarossa\compiler\models\analyzers\syntactical\SyntaxAnalyzer.class
 com\danarossa\compiler\controllers\BIOException.class
 com\danarossa\compiler\models\Program$Const.class
@@ -11,11 +12,15 @@ com\danarossa\compiler\controllers\FileWriter.class
 com\danarossa\compiler\controllers\ViewController$XLSReader.class
 com\danarossa\compiler\models\analyzers\CompilerException.class
 com\danarossa\compiler\models\Program.class
+com\danarossa\compiler\controllers\TokensController.class
+com\danarossa\compiler\controllers\ConstantsController.class
+com\danarossa\compiler\models\analyzers\lexical\StatesController.class
 com\danarossa\compiler\models\analyzers\syntactical2\SAException.class
 com\danarossa\compiler\models\analyzers\syntactical2\SyntaxAnalyzer2$dumpState.class
 com\danarossa\compiler\models\analyzers\lexical\Exceptions\UndeclaredVariableException.class
 com\danarossa\compiler\models\analyzers\lexical\LexicalAnalyzer.class
 com\danarossa\compiler\models\TokensReader.class
+com\danarossa\compiler\controllers\ExceptionsController.class
 com\danarossa\compiler\models\analyzers\lexical\CharClasses.class
 com\danarossa\compiler\models\analyzers\syntactical2\StatesController.class
 com\danarossa\compiler\models\analyzers\lexical\constType.class
@@ -24,4 +29,6 @@ com\danarossa\compiler\models\TokensReader$Token.class
 com\danarossa\compiler\models\analyzers\syntactical\SAException.class
 com\danarossa\compiler\GreatProject.class
 com\danarossa\compiler\models\analyzers\AbstractAnalyzer.class
+com\danarossa\compiler\controllers\TransitionsController.class
+com\danarossa\compiler\controllers\IdentifiersController.class
 com\danarossa\compiler\models\analyzers\lexical\Exceptions\ScannerException.class

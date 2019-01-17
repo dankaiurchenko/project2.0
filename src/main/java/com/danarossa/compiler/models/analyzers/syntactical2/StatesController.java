@@ -18,13 +18,12 @@ public class StatesController {
   private final transient ObservableList<Transition> transitionArrayList = FXCollections.observableArrayList();
 
   public StatesController(File file) throws BIOException {
-    try {
+    try (Workbook workbook = WorkbookFactory.create(file)){
       String alpha = "";
       String mark = "";
       String beta = "";
       String stackMark = "";
       String errorMessage = "";
-      Workbook workbook = WorkbookFactory.create(file);
       Sheet sheet = workbook.getSheetAt(0);
       DataFormatter dataFormatter = new DataFormatter();
       Iterator<Row> rowIterator = sheet.rowIterator();
@@ -44,7 +43,6 @@ public class StatesController {
         if(isNumeric(alpha) && isNumeric(stackMark) && !alpha.equals(""))
           transitionArrayList.add(new Transition(alpha, mark, beta, stackMark, errorMessage));
       }
-      workbook.close();
     } catch (IOException | InvalidFormatException  e) {
       e.printStackTrace();
       throw new BIOException(e);
