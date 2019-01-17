@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danarossa.compiler.controllers.ViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tischenko.controllers.ViewController">
    <BorderPane prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <top>
          <MenuBar BorderPane.alignment="CENTER">
@@ -33,12 +33,11 @@
                <SeparatorMenuItem mnemonicParsing="false" />
                <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit" />
             </Menu>
-            <Menu mnemonicParsing="false" text="Additional">
-                  <MenuItem mnemonicParsing="false" onAction="#openTokensFile" text="Set tokens file..." />
-                  <MenuItem mnemonicParsing="false" onAction="#openAnalyzerConfiguration" text="Set analyzer configuration file..." />
-            </Menu>
-            <Menu mnemonicParsing="false" text="Run">
-               <MenuItem fx:id="runLexicalAnalyzerMenu" disable="true" mnemonicParsing="false" onAction="#runLexicalAnalyzer" text="Run lexical analyzer" />
+            <Menu mnemonicParsing="false" text="Analyze">
+                  <MenuItem mnemonicParsing="false" onAction="#openTokensFile" text="Open tokens file..." />
+                  <MenuItem mnemonicParsing="false" onAction="#openAnalyzerConfiguration" text="Open analyzer configuration file..." />
+                <SeparatorMenuItem mnemonicParsing="false" />
+                <MenuItem fx:id="runLexicalAnalyzerMenu" disable="true" mnemonicParsing="false" onAction="#runLexicalAnalyzer" text="Run lexical analyzer" />
                <MenuItem fx:id="runSyntaxAnalyzerMenu" disable="true" mnemonicParsing="false" onAction="#runSyntaxAnalyzer" text="Run syntactic analyzer" />
                <MenuItem fx:id="runSyntaxAnalyzer2Menu" disable="true" mnemonicParsing="false" onAction="#runSyntax2Analyzer" text="Run syntactic analyzer (MPA)" />
             </Menu>
@@ -102,9 +101,9 @@
                </font>
             </Label>
             <Pane HBox.hgrow="ALWAYS" />
-            <Label fx:id="statusLabel" text="GP opened" textFill="#222020" HBox.hgrow="NEVER">
+            <Label fx:id="statusLabel" prefHeight="19.0" text="Compiler is opened" textAlignment="RIGHT" textFill="#222020" HBox.hgrow="NEVER">
                <font>
-                  <Font size="13.0" />
+                  <Font name="Candara" size="14.0" />
                </font>
             </Label>
          </HBox>
