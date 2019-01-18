@@ -2,7 +2,7 @@ package com.tischenko.controllers;
 
 import com.tischenko.models.Program;
 import com.tischenko.models.analyzers.CompilerException;
-import com.tischenko.models.analyzers.syntactical2.SyntaxAnalyzer2;
+import com.tischenko.models.analyzers.saMPA.SyntaxAnalyzer2;
 import javafx.collections.ObservableList;
 
 import java.io.*;

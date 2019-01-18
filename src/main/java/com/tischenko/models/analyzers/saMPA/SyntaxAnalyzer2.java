@@ -1,7 +1,8 @@
-package com.tischenko.models.analyzers.syntactical2;
+package com.tischenko.models.analyzers.saMPA;
 
 import com.tischenko.models.Program;
 import com.tischenko.models.analyzers.AbstractAnalyzer;
+import com.tischenko.models.analyzers.SAException;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;

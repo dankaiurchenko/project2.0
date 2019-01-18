@@ -1,4 +1,4 @@
-package com.tischenko.models.analyzers.syntactical2;
+package com.tischenko.models.analyzers.saMPA;
 
 import com.tischenko.controllers.BIOException;
 import javafx.beans.property.IntegerProperty;

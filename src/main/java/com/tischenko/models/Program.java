@@ -1,7 +1,7 @@
 package com.tischenko.models;
 
-import com.tischenko.models.analyzers.lexical.constType;
-import com.tischenko.models.analyzers.syntactical2.SyntaxAnalyzer2;
+import com.tischenko.models.analyzers.la.IdentifierTypes;
+import com.tischenko.models.analyzers.saMPA.SyntaxAnalyzer2;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -142,9 +142,9 @@ public class Program implements Serializable{
     private transient IntegerProperty number;
     private transient StringProperty token;
     private transient StringProperty typeName;
-    private transient constType type;
+    private transient IdentifierTypes type;
 
-    public Identifier(int number, String token, constType type) {
+    public Identifier(int number, String token, IdentifierTypes type) {
       this.number = new SimpleIntegerProperty(number);
       this.token = new SimpleStringProperty(token);
       this.typeName = new SimpleStringProperty(type.toString());
@@ -177,7 +177,7 @@ public class Program implements Serializable{
       return token;
     }
 
-    public constType getType() {
+    public IdentifierTypes getType() {
       return type;
     }
 
@@ -215,7 +215,7 @@ public class Program implements Serializable{
       number.set(s.readInt());
       token.set(s.readUTF());
       typeName.set(s.readUTF());
-      type = (constType) s.readObject();
+      type = (IdentifierTypes) s.readObject();
     }
 
     @Override

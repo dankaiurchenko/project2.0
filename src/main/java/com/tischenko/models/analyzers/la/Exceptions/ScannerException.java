@@ -1,4 +1,4 @@
-package com.tischenko.models.analyzers.lexical.Exceptions;
+package com.tischenko.models.analyzers.la.Exceptions;
 
 import com.tischenko.models.analyzers.CompilerException;
 

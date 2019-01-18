@@ -1,4 +1,4 @@
-package com.tischenko.models.analyzers.lexical.Exceptions;
+package com.tischenko.models.analyzers.la.Exceptions;
 
 public class DuplicatedVariableException extends ScannerException {
   public DuplicatedVariableException(int number, String errorToken, int numberOfRow) {

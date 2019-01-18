@@ -1,4 +1,4 @@
-package com.tischenko.models.analyzers.lexical.Exceptions;
+package com.tischenko.models.analyzers.la.Exceptions;
 
 public class UndeclaredVariableException extends ScannerException  {
   public UndeclaredVariableException(int number, String errorToken, int numberOfRow) {

@@ -1,25 +1,27 @@
-package com.tischenko.models.analyzers.lexical;
+package com.tischenko.models.analyzers.la;
 
 import com.tischenko.models.Program;
 import com.tischenko.models.analyzers.AbstractAnalyzer;
-import com.tischenko.models.analyzers.lexical.Exceptions.DuplicatedVariableException;
-import com.tischenko.models.analyzers.lexical.Exceptions.EndOfFileException;
-import com.tischenko.models.analyzers.lexical.Exceptions.ScannerException;
-import com.tischenko.models.analyzers.lexical.Exceptions.UndeclaredVariableException;
+import com.tischenko.models.analyzers.la.Exceptions.DuplicatedVariableException;
+import com.tischenko.models.analyzers.la.Exceptions.EndOfFileException;
+import com.tischenko.models.analyzers.la.Exceptions.ScannerException;
+import com.tischenko.models.analyzers.la.Exceptions.UndeclaredVariableException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 
+import static com.tischenko.models.Program.*;
+import static java.lang.Integer.*;
+
 public class LexicalAnalyzer extends AbstractAnalyzer {
-  //TODO зарефакторить код
   private Character currentChar;
 
   private int currentLine = 1;
   private int currentState = 1;
   private int currentTokenNumber = 0;
   private boolean hasToReadNextChar = true;
-  private constType currentConstType = null;
+  private IdentifierTypes currentIdentifierType = null;
   private int number = 0;
   private int constNumber = 1;
   private int idNumber = 1;
@@ -38,7 +40,7 @@ public class LexicalAnalyzer extends AbstractAnalyzer {
 
   private void addToken(int constant, int id, int tokenCode) {
     int currentTokenCode = (tokenCode != 0) ? tokenCode :
-            Integer.decode(program.getTableOfTokens().get(currentToken.toString()));
+            decode(program.getTableOfTokens().get(currentToken.toString()));
     setConstType(currentTokenCode);
     program.addToken(currentToken.toString(), currentTokenCode,
             id, constant, currentTokenNumber, currentLine);
@@ -47,47 +49,45 @@ public class LexicalAnalyzer extends AbstractAnalyzer {
 
   private void addIdentifier() {
     if (program.getTableOfTokens().containsKey(currentToken.toString())) {
-      addToken(0, 0, Integer.parseInt(program.getTableOfTokens().get(currentToken.toString())));
+      addToken(0, 0, parseInt(program.getTableOfTokens().get(currentToken.toString())));
       return;
     }
-    //додать перевірку, чи іще немає там цієї штуки
-    Program.Identifier identifier = new Program.Identifier(currentToken.toString());
+    Identifier identifier = new Identifier(currentToken.toString());
     if (program.hasIdentifier(identifier)) {
-      if (currentConstType != null) {
+      if (currentIdentifierType != null) {
         exceptions.add(new DuplicatedVariableException(number++, currentToken.toString(), currentLine));
         return;
       }
       addToken(0, program.getIdentifiers().indexOf(identifier) + 1, program.getCode("Ident"));
     } else {
-      if (currentConstType == null) {
+      if (currentIdentifierType == null) {
         exceptions.add(new UndeclaredVariableException(number++, currentToken.toString(), currentLine));
         return;
       }
-      identifier = new Program.Identifier(idNumber++, currentToken.toString(), currentConstType);
-      program.addIdentifier(identifier);
+      program.addIdentifier(new Identifier(idNumber++, currentToken.toString(), currentIdentifierType));
       addToken(0, program.getIdentifiers().size(), program.getCode("Ident"));
     }
   }
 
   private void addConstant() {
-    Program.Const constant = new Program.Const(Double.parseDouble(currentToken.toString()));
+    Const constant = new Const(Double.parseDouble(currentToken.toString()));
     if (program.hasConstant(constant)) {
       addToken(0, program.getConstants().indexOf(constant) + 1, program.getCode("Const"));
     } else {
-      program.addConstant(new Program.Const(constNumber++, Double.parseDouble(currentToken.toString())));
+      program.addConstant(new Const(constNumber++, Double.parseDouble(currentToken.toString())));
       addToken(program.getConstants().size(), 0, program.getCode("Const"));
     }
   }
 
   private void setConstType(int currentTokenCode) {
-    if (currentConstType != null && currentTokenCode != program.getCode(",") &&
+    if (currentIdentifierType != null && currentTokenCode != program.getCode(",") &&
             currentTokenCode != program.getCode("Ident") &&
             currentTokenCode != program.getCode(":") &&
-            constType.getType(currentToken.toString()) == null) {
-      currentConstType = null;
+            IdentifierTypes.getType(currentToken.toString()) == null) {
+      currentIdentifierType = null;
     } else{
-      constType c = constType.getType(currentToken.toString());
-      if(c!=null) currentConstType = c;
+      IdentifierTypes c = IdentifierTypes.getType(currentToken.toString());
+      if(c!=null) currentIdentifierType = c;
     }
 
   }
@@ -117,7 +117,7 @@ public class LexicalAnalyzer extends AbstractAnalyzer {
               goToFirstState();
               break;
             default:
-              currentState = Integer.parseInt(currentTransition.getBeta());
+              currentState = parseInt(currentTransition.getBeta());
           }
         } else {
           addException();
@@ -136,7 +136,7 @@ public class LexicalAnalyzer extends AbstractAnalyzer {
     currentState = 1;
     currentToken = new StringBuilder();
     readNextCharIfNeeded();
-    readWhiteSeparatorsAdnComments();
+    readWhiteSeparators();
     hasToReadNextChar = false;
   }
 
@@ -149,15 +149,14 @@ public class LexicalAnalyzer extends AbstractAnalyzer {
       intChar = nextCharReader.read();
       int END_OF_FILE = -1;
       if (intChar == END_OF_FILE) {
-        intChar = LINE_FEED;
         isFileOver = true;
-      }
-      if (intChar == LINE_FEED) {
+        return (char) LINE_FEED;
+      }else if (intChar == LINE_FEED) {
         currentLine++;
       }
     } catch (IOException o) {
       isFileOver = true;
-      intChar = LINE_FEED;
+      return (char)LINE_FEED;
     }
     return (char) intChar;
   }
@@ -177,24 +176,19 @@ public class LexicalAnalyzer extends AbstractAnalyzer {
     exceptions.add(new ScannerException(number++, currentToken.toString(), currentLine));
   }
 
-  private void readWhiteSeparatorsAdnComments() throws EndOfFileException {
-    boolean isItComment = false;
-    while (CharClasses.WHITE.contains(currentChar) ||
-            CharClasses.COMMENT.contains(currentChar) || isItComment) {
-      if (currentChar == LINE_FEED || String.valueOf(currentChar).equals(System.getProperty("line.separator"))) {
-        isItComment = false;
-        currentLine++;
-      } else if (CharClasses.COMMENT.contains(currentChar)) {
-        isItComment = true;
+  private void readWhiteSeparators() throws EndOfFileException {
+    while (CharClasses.WHITE.contains(currentChar) && !isFileOver) {
+      if (CharClasses.COMMENT.contains(currentChar)) {
+        readComment();
       }
       currentChar = readNextChar();
-      if (isFileOver) {
-        return;
-      }
     }
   }
 
-  //regex for identifier /^[a-zA-Z_][a-zA-Z0-9_]*$/
-  //regex for constant ^[0-9]*\.?[0-9]*$
-
+  private void readComment() throws EndOfFileException{
+    while (currentChar != LINE_FEED && !isFileOver &&
+            !String.valueOf(currentChar).equals(System.getProperty("line.separator"))) {
+      currentChar = readNextChar();
+    }
+  }
 }

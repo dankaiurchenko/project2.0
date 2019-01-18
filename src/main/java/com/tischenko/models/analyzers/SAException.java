@@ -1,11 +1,11 @@
-package com.tischenko.models.analyzers.syntactical2;
+package com.tischenko.models.analyzers;
 
 import com.tischenko.models.Program;
 import com.tischenko.models.analyzers.CompilerException;
 
 @SuppressWarnings("SameParameterValue")
-class SAException extends CompilerException {
-  SAException(Program.Token token, String cause, int number) {
+public class SAException extends CompilerException {
+  public SAException(Program.Token token, String cause, int number) {
       super(number, cause, token.getLine(), token.getToken(), "Syntax analyzer");
   }
 }

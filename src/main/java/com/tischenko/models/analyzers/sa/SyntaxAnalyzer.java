@@ -1,7 +1,8 @@
-package com.tischenko.models.analyzers.syntactical;
+package com.tischenko.models.analyzers.sa;
 
 import com.tischenko.models.Program;
 import com.tischenko.models.analyzers.AbstractAnalyzer;
+import com.tischenko.models.analyzers.SAException;
 
 
 public class SyntaxAnalyzer extends AbstractAnalyzer {

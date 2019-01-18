@@ -1,6 +1,6 @@
 package com.tischenko.controllers;
 
-import com.tischenko.models.analyzers.syntactical2.SyntaxAnalyzer2;
+import com.tischenko.models.analyzers.saMPA.SyntaxAnalyzer2;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;

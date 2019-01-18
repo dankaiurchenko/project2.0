@@ -1,4 +1,4 @@
-package com.tischenko.models.analyzers.lexical;
+package com.tischenko.models.analyzers.la;
 
 enum CharClasses {
 //  A-Za-z (без e)	L
@@ -27,7 +27,7 @@ enum CharClasses {
   DOT(".", '.'),
   STAR("*", '*'),
   E("e", 'e'),
-  WHITE("white",(char)9, (char)32, (char)10, (char)13),
+  WHITE("white",(char)9, (char)32, (char)10, (char)13, '#'),
   COMMENT("comment", '#');
   CharClasses(String name, char ...chars) {
     this.chars = chars;

@@ -1,4 +1,4 @@
-package com.tischenko.models.analyzers.lexical;
+package com.tischenko.models.analyzers.la;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
