@@ -12,23 +12,24 @@ import java.util.Stack;
 
 public class SyntaxAnalyzer2 extends AbstractAnalyzer {
 
+  private final Stack<Integer> stack = new Stack<>();
+  private final StatesController statesController;
   private int number = 0;
   private int currentToken = 0;
   private int currentState = 1;
-  private final Stack<Integer> stack = new Stack<>();
-  private final StatesController statesController;
 
   public SyntaxAnalyzer2(Program program, StatesController statesController) {
     super(program);
     this.statesController = statesController;
   }
 
-  public boolean analyze(){
-    loop:while(currentToken < program.getTokens().size()){
+  public boolean analyze() {
+    loop:
+    while (currentToken < program.getTokens().size()) {
       program.addDumpState(new dumpState(++number));
       StatesController.Transition currentTransition = statesController.getTransition(currentState,
-                      program.getTableOfTokens().get(String.valueOf(program.getToken(currentToken).getCode())));
-      if(currentTransition!=null){
+              program.getTableOfTokens().get(String.valueOf(program.getToken(currentToken).getCode())));
+      if (currentTransition != null) {
         switch (currentTransition.getBeta()) {
           case "error":
             addException(currentTransition.getErrorMessage());
@@ -36,7 +37,7 @@ public class SyntaxAnalyzer2 extends AbstractAnalyzer {
           case "exit":
             if (currentToken == program.getTokens().size() - 1 && stack.empty()) {
               return true;
-            } else if(!stack.empty()){
+            } else if (!stack.empty()) {
               currentState = stack.pop();
             } else {
               addException("End of program expected");
@@ -45,14 +46,14 @@ public class SyntaxAnalyzer2 extends AbstractAnalyzer {
             break;
           default:
             currentState = Integer.parseInt(currentTransition.getBeta());
-            if(currentTransition.getStackMark() != 0){
+            if (currentTransition.getStackMark() != 0) {
               stack.push(currentTransition.getStackMark());
             }
             break;
         }
-        if(!currentTransition.getMark().equals("void")){
+        if (!currentTransition.getMark().equals("void")) {
           currentToken++;
-           if(currentToken == program.getTokens().size() - 1) {
+          if (currentToken == program.getTokens().size() - 1) {
             addException("End of program expected");
           }
         }
@@ -64,12 +65,12 @@ public class SyntaxAnalyzer2 extends AbstractAnalyzer {
     return false;
   }
 
-  private void addException(String message){
+  private void addException(String message) {
     exceptions.add(new SAException(program.getToken(currentToken), message, 1));
   }
 
   @SuppressWarnings("unused")
-  public class dumpState{
+  public class dumpState {
     IntegerProperty number;
     IntegerProperty state;
     StringProperty token;

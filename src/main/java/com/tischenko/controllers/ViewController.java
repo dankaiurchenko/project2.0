@@ -2,7 +2,7 @@ package com.tischenko.controllers;
 
 import com.tischenko.Compiler;
 import com.tischenko.models.Program;
-import com.tischenko.models.TokensReader;
+import com.tischenko.models.InputTokensReader;
 import com.tischenko.models.analyzers.AbstractAnalyzer;
 import com.tischenko.models.analyzers.CompilerException;
 import com.tischenko.models.analyzers.la.LexicalAnalyzer;
@@ -29,59 +29,78 @@ public class ViewController {
   private Compiler gp;
   private FileWriter fileWriter;
   private StatesController statesController;
-  private TokensReader tokensReader;
+  private InputTokensReader inputTokensReader;
   private boolean lastLexical;
   private ObservableList<CompilerException> exceptions = FXCollections.observableArrayList();
 
   // таблиця конфігурації
-  @FXML private TableView<StatesController.Transition> transitionConfigurationsTable;
-  @FXML private TableColumn<StatesController.Transition, Integer> alphaColumn;
-  @FXML private TableColumn<StatesController.Transition, String> markColumn;
-  @FXML private TableColumn<StatesController.Transition, String> betaColumn;
-  @FXML private TableColumn<StatesController.Transition, Integer> stackColumn;
-  @FXML private TableColumn<StatesController.Transition, String> errorMessageColumn;
+  @FXML
+  private TableView<StatesController.Transition> transitionConfigurationsTable;
+  @FXML
+  private TableColumn<StatesController.Transition, Integer> alphaColumn;
+  @FXML
+  private TableColumn<StatesController.Transition, String> markColumn;
+  @FXML
+  private TableColumn<StatesController.Transition, String> betaColumn;
+  @FXML
+  private TableColumn<StatesController.Transition, Integer> stackColumn;
+  @FXML
+  private TableColumn<StatesController.Transition, String> errorMessageColumn;
 
   // таблиця вхідних токенів
-  @FXML private TableView<TokensReader.Token> inputTokensTable;
-  @FXML private TableColumn<TokensReader.Token, Integer> codeColumn;
-  @FXML private TableColumn<TokensReader.Token, String> tokenColumn;
+  @FXML
+  private TableView<InputTokensReader.Token> inputTokensTable;
+  @FXML
+  private TableColumn<InputTokensReader.Token, Integer> codeColumn;
+  @FXML
+  private TableColumn<InputTokensReader.Token, String> tokenColumn;
 
   // панель статуса
-  @FXML private Label fileNameLabel;
-  @FXML private Label statusLabel;
+  @FXML
+  private Label fileNameLabel;
+  @FXML
+  private Label statusLabel;
 
   // для коду програми
-  @FXML private TextArea sourceCodeArea;
+  @FXML
+  private TextArea sourceCodeArea;
   //menus
-  @FXML private MenuItem closeProjectMenu;
-  @FXML private MenuItem saveMenu;
-  @FXML private MenuItem saveAsSourceCodeMenu;
-  @FXML private MenuItem runLexicalAnalyzerMenu;
-  @FXML private MenuItem runSyntaxAnalyzerMenu;
-  @FXML private MenuItem runSyntaxAnalyzer2Menu;
-  @FXML private MenuItem saveTablesMenu;
+  @FXML
+  private MenuItem closeProjectMenu;
+  @FXML
+  private MenuItem saveMenu;
+  @FXML
+  private MenuItem saveAsSourceCodeMenu;
+  @FXML
+  private MenuItem runLexicalAnalyzerMenu;
+  @FXML
+  private MenuItem runSyntaxAnalyzerMenu;
+  @FXML
+  private MenuItem runSyntaxAnalyzer2Menu;
+  @FXML
+  private MenuItem saveTablesMenu;
 
   public ViewController() {
-    }
+  }
 
   public void setGp(Compiler gp) {
     this.gp = gp;
   }
 
-  public void newProgram(){
+  public void newProgram() {
     File file = getFileToSave("TXT files (*.txt)", "*.txt");
-    if(file != null){
+    if (file != null) {
       prepareForNewProject(file, "New program is created");
     }
   }
 
-  public void openSourceCode(){
-    File file = getFileToRead("TXT files (*.txt)","*.txt" );
+  public void openSourceCode() {
+    File file = getFileToRead("TXT files (*.txt)", "*.txt");
     if (file != null) {
       prepareForNewProject(file, "Source code is opened");
-      try(Scanner s = new Scanner(file)) {
+      try (Scanner s = new Scanner(file)) {
         while (s.hasNextLine()) {
-          String newline = s.nextLine().replace((char)-1, ' ');
+          String newline = s.nextLine().replace((char) -1, ' ');
 //          newline = ((int)newline.charAt(newline.length()-1) == -1) ? newline.substring(0, newline.length() - 1) : newline;
           sourceCodeArea.appendText(newline + System.getProperty("line.separator"));
         }
@@ -92,8 +111,8 @@ public class ViewController {
     }
   }
 
-  public void save(){
-    if (program.getProgramName().endsWith(".txt")){
+  public void save() {
+    if (program.getProgramName().endsWith(".txt")) {
       try {
         fileWriter.writeSourceCodeIntoFile(updateProgram().getProgramFile(), sourceCodeArea.getText());
       } catch (BIOException e) {
@@ -102,24 +121,24 @@ public class ViewController {
     }
   }
 
-  public void saveTables(){
+  public void saveTables() {
     try {
-      if(!program.getTableOfTokens().isEmpty()){
+      if (!program.getTableOfTokens().isEmpty()) {
         fileWriter.writeTokenFile();
       }
-      if(!program.getConstants().isEmpty()){
+      if (!program.getConsts().isEmpty()) {
         fileWriter.writeConstantsFile();
       }
-      if(!program.getIdentifiers().isEmpty()){
+      if (!program.getIdents().isEmpty()) {
         fileWriter.writeIDsFile();
       }
-      if(!exceptions.isEmpty()){
+      if (!exceptions.isEmpty()) {
         fileWriter.writeExceptionsFile();
       }
-      if(!program.getTransitionTable().isEmpty()){
+      if (!program.getTransitionTable().isEmpty()) {
         fileWriter.writeTransitionsFile();
       }
-      if(fileWriter.isWritten()){
+      if (fileWriter.isWritten()) {
         setStatusLabel("Tables are written successfully");
       }
     } catch (BIOException e) {
@@ -127,18 +146,18 @@ public class ViewController {
     }
   }
 
-  public void saveSourceCode(){
-    File file = getFileToSave("TXT files (*.txt)","*.txt" );
+  public void saveSourceCode() {
+    File file = getFileToSave("TXT files (*.txt)", "*.txt");
     try {
       updateProgram();
-      fileWriter.writeSourceCodeIntoFile(file,  sourceCodeArea.getText());
+      fileWriter.writeSourceCodeIntoFile(file, sourceCodeArea.getText());
       setStatusLabel("Source code is saved successfully");
     } catch (BIOException e) {
       showErrorDialog("Error occurred", "Please, check out the file and the program source code");
     }
   }
 
-  public void closeCurrentProject(){
+  public void closeCurrentProject() {
     //усі таблиці очищаються
     program = null;
     saveTablesMenu.setDisable(true);
@@ -149,14 +168,14 @@ public class ViewController {
     setMenusInputTransitions(true);
   }
 
-  public void runLexicalAnalyzer(){
-    if (sourceCodeArea.getText().isEmpty()){
+  public void runLexicalAnalyzer() {
+    if (sourceCodeArea.getText().isEmpty()) {
       showErrorDialog("Lexical Analyzer Error occurred", "Please, write some code before lexical analysis");
-    } else if(tokensReader == null || tokensReader.getTableOfTokens().isEmpty()){
+    } else if (inputTokensReader == null || inputTokensReader.getTableOfTokens().isEmpty()) {
       showErrorDialog("Lexical Analyzer Error occurred", "Please, check out the input table of tokens");
-    }else {
+    } else {
 //      clearTables();
-      program.cleanup().setTableOfTokens(tokensReader.getMapOfTokens());
+      program.cleanup().setTableOfTokens(inputTokensReader.getMapOfTokens());
       executeAnalysis(new LexicalAnalyzer(new StringReader(sourceCodeArea.getText()), program), "Lexical analysis done successfully");
       showTokens();
       showIDs();
@@ -166,31 +185,31 @@ public class ViewController {
     }
   }
 
-  public void runSyntaxAnalyzer(){
+  public void runSyntaxAnalyzer() {
 //    System.out.println(program.getExceptions());
-    if(program.getTokens() == null || program.getTokens().isEmpty()){
+    if (program.getTokens() == null || program.getTokens().isEmpty()) {
       showErrorDialog("Syntax Analyzer Error occurred", "Please, produce lexical analysis before syntactical one");
-    }else if(!exceptions.isEmpty() && lastLexical){
+    } else if (!exceptions.isEmpty() && lastLexical) {
       showErrorDialog("Syntax Analyzer Error occurred", "Please, produce valid lexical analysis before syntactical one");
-    }else if(program.getTableOfTokens() == null || program.getTableOfTokens().isEmpty()){
+    } else if (program.getTableOfTokens() == null || program.getTableOfTokens().isEmpty()) {
       showErrorDialog("Syntax Analyzer Error occurred", "Please, check out the input table of tokens");
-    }else {
+    } else {
       executeAnalysis(new SyntaxAnalyzer(program), "Syntactical analysis done successfully");
       lastLexical = false;
     }
   }
 
-  public void runSyntax2Analyzer(){
+  public void runSyntax2Analyzer() {
     program.clearTransitions();
-    if(program.getTokens() == null || program.getTokens().isEmpty()){
+    if (program.getTokens() == null || program.getTokens().isEmpty()) {
       showErrorDialog("Syntax Analyzer Error occurred", "Please, produce lexical analysis before syntactical one");
-    }else if(!exceptions.isEmpty() && lastLexical){
+    } else if (!exceptions.isEmpty() && lastLexical) {
       showErrorDialog("Syntax Analyzer Error occurred", "Please, produce valid lexical analysis before syntactical one");
-    }else if(statesController == null || statesController.getTransitionArrayList().isEmpty()){
+    } else if (statesController == null || statesController.getTransitionArrayList().isEmpty()) {
       showErrorDialog("Syntax Analyzer Error occurred", "Please, specify MPA analyzer transition table");
-    }else if(program.getTableOfTokens() == null || program.getTableOfTokens().isEmpty()){
+    } else if (program.getTableOfTokens() == null || program.getTableOfTokens().isEmpty()) {
       showErrorDialog("Syntax Analyzer Error occurred", "Please, check out the input table of tokens");
-    }else {
+    } else {
       SyntaxAnalyzer2 analyzer2 = new SyntaxAnalyzer2(program, statesController);
       executeAnalysis(analyzer2, "Syntactical(MPA) analysis done successfully");
       showTransitions();
@@ -198,15 +217,15 @@ public class ViewController {
     }
   }
 
-  public void openTokensFile(){
-    File file = getFileToRead("TXT files (*.txt)","*.txt");
+  public void openTokensFile() {
+    File file = getFileToRead("TXT files (*.txt)", "*.txt");
     if (file != null) {
-      try(Scanner s = new Scanner(file)) {
-        tokensReader = new TokensReader(s);
+      try (Scanner s = new Scanner(file)) {
+        inputTokensReader = new InputTokensReader(s);
         inputTokensTable.getItems().clear();
-        if(!tokensReader.getTableOfTokens().isEmpty()){
+        if (!inputTokensReader.getTableOfTokens().isEmpty()) {
           //заповнюємо таблиці токенів, ід, конст
-          inputTokensTable.setItems(tokensReader.getTableOfTokens());
+          inputTokensTable.setItems(inputTokensReader.getTableOfTokens());
           codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
           tokenColumn.setCellValueFactory(new PropertyValueFactory<>("token"));
         }
@@ -216,25 +235,25 @@ public class ViewController {
       } catch (FileNotFoundException ex) {
         showErrorDialog("File not found", "Try another file, please");
       }
-//      System.out.println(tokensReader.getTokensText());
+//      System.out.println(inputTokensReader.getTokensText());
     }
   }
 
-  public void openAnalyzerConfiguration(){
-    File file = getFileToRead("JSON files (*.json)","*.json");
+  public void openAnalyzerConfiguration() {
+    File file = getFileToRead("JSON files (*.json)", "*.json");
     if (file != null) {
       try {
         statesController = new StatesController(file);
         showTransitionConfigurations();
         setMenusInputTransitions(false);
         setStatusLabel("MPA analyzer configuration table opened");
-      } catch (BIOException e ) {
+      } catch (BIOException e) {
         showErrorDialog("Invalid file", "Try another file, please");
       }
     }
   }
 
-  public void quit(){
+  public void quit() {
     try {
       gp.getPrimaryStage().close();
     } catch (Exception e) {
@@ -242,13 +261,13 @@ public class ViewController {
     }
   }
 
-  public void showLanguageDoc(){
+  public void showLanguageDoc() {
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
     alert.getDialogPane().setMinWidth(600);
     setAlertIcon(alert);
     alert.setTitle("Programming language");
     alert.setHeaderText("Language syntax");
-    alert.setContentText("<Prog>::= Program  Ident  <DeclarationList>  \\{ <OperatorsList> \\}\n" +
+    alert.setContentText("<Program>::= Program  Ident  <DeclarationList>  \\{ <OperatorsList> \\}\n" +
             "\n" +
             "<DeclarationList>::=  <Declaration> { ; <Declaration> }\n" +
             "<Declaration>::= <Type> <IdentList>\n" +
@@ -278,15 +297,16 @@ public class ViewController {
     alert.showAndWait();
   }
 
-  private void setAlertIcon(Alert alert){
+  private void setAlertIcon(Alert alert) {
     try {
       Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
       stage.getIcons().add(new Image(this.getClass().getResource("../images/binary-code.png").toString()));
     } catch (Exception e) {
       System.out.println("icon not found");
-    }  }
+    }
+  }
 
-  private void showErrorDialog(String message, String solution){
+  private void showErrorDialog(String message, String solution) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setTitle("Error!");
     setAlertIcon(alert);
@@ -295,7 +315,7 @@ public class ViewController {
     alert.showAndWait();
   }
 
-  private void showExceptions(){
+  private void showExceptions() {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass()
               .getResource("/ExceptionsView.fxml"));
@@ -305,16 +325,16 @@ public class ViewController {
       Stage stage = new Stage();
       stage.setTitle("Exceptions table");
       stage.setScene(scene);
-      ((ExceptionsController)fxmlLoader.getController()).show();
+      ((ExceptionsController) fxmlLoader.getController()).show();
       stage.show();
     } catch (IOException ioe) {
       ioe.printStackTrace();
-      showErrorDialog("Error occurred" , "Try later");
+      showErrorDialog("Error occurred", "Try later");
 
     }
   }
 
-  private void showTokens(){
+  private void showTokens() {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass()
               .getResource("/TokensView.fxml"));
@@ -324,59 +344,59 @@ public class ViewController {
       Stage stage = new Stage();
       stage.setTitle("Tokens table");
       stage.setScene(scene);
-      ((TokensController)fxmlLoader.getController()).show();
+      ((TokensController) fxmlLoader.getController()).show();
       stage.show();
     } catch (IOException ioe) {
       ioe.printStackTrace();
-      showErrorDialog("Error occurred" , "Try later");
+      showErrorDialog("Error occurred", "Try later");
     }
 
   }
 
-  private void showConstants(){
+  private void showConstants() {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass()
               .getResource("/ConstantsView.fxml"));
-      fxmlLoader.setControllerFactory(c -> new ConstantsController(program.getConstants()));
+      fxmlLoader.setControllerFactory(c -> new ConstantsController(program.getConsts()));
       AnchorPane root = fxmlLoader.load();
       Scene scene = new Scene(root, 300, 200);
       Stage stage = new Stage();
       stage.setTitle("Constants table");
       stage.setScene(scene);
-      ((ConstantsController)fxmlLoader.getController()).show();
+      ((ConstantsController) fxmlLoader.getController()).show();
       stage.show();
     } catch (IOException ioe) {
       ioe.printStackTrace();
-      showErrorDialog("Error occurred" , "Try later");
+      showErrorDialog("Error occurred", "Try later");
     }
 
   }
 
-  private void showIDs(){
+  private void showIDs() {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass()
               .getResource("/IdentifiersView.fxml"));
-      fxmlLoader.setControllerFactory(c -> new IdentifiersController(program.getIdentifiers()));
+      fxmlLoader.setControllerFactory(c -> new IdentifiersController(program.getIdents()));
       AnchorPane root = fxmlLoader.load();
       Scene scene = new Scene(root, 300, 200);
       Stage stage = new Stage();
       stage.setTitle("Identifiers table");
       stage.setScene(scene);
-      ((IdentifiersController)fxmlLoader.getController()).show();
+      ((IdentifiersController) fxmlLoader.getController()).show();
       stage.show();
     } catch (IOException ioe) {
       ioe.printStackTrace();
-      showErrorDialog("Error occurred" , "Try later");
+      showErrorDialog("Error occurred", "Try later");
 
     }
 
 
   }
 
-  private void showTransitionConfigurations(){
+  private void showTransitionConfigurations() {
     transitionConfigurationsTable.getItems().clear();
 
-    if(statesController != null && !statesController.getTransitionArrayList().isEmpty()){
+    if (statesController != null && !statesController.getTransitionArrayList().isEmpty()) {
       //заповнюємо таблиці токенів, ід, конст
       transitionConfigurationsTable.setItems(statesController.getTransitionArrayList());
       alphaColumn.setCellValueFactory(new PropertyValueFactory<>("alpha"));
@@ -387,7 +407,7 @@ public class ViewController {
     }
   }
 
-  private void showTransitions(){
+  private void showTransitions() {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass()
               .getResource("/TransitionsView.fxml"));
@@ -397,35 +417,35 @@ public class ViewController {
       Stage stage = new Stage();
       stage.setTitle("Table of transitions");
       stage.setScene(scene);
-      ((TransitionsController)fxmlLoader.getController()).show();
+      ((TransitionsController) fxmlLoader.getController()).show();
       stage.show();
     } catch (IOException ioe) {
       ioe.printStackTrace();
-      showErrorDialog("Error occurred" , "Try later");
+      showErrorDialog("Error occurred", "Try later");
     }
 
   }
 
-  private void setMenusProgram(boolean value){
+  private void setMenusProgram(boolean value) {
     closeProjectMenu.setDisable(value);
     saveMenu.setDisable(value);
     saveAsSourceCodeMenu.setDisable(value);
     //saveAsProgramMenu.setDisable(value);
   }
 
-  private void setMenusInputTokens(boolean value){
-    if(program != null) {
+  private void setMenusInputTokens(boolean value) {
+    if (program != null) {
       runLexicalAnalyzerMenu.setDisable(value);
       runSyntaxAnalyzerMenu.setDisable(value);
     }
   }
 
-  private void setMenusInputTransitions(boolean value){
-    if(tokensReader != null && program != null && statesController != null)
-    runSyntaxAnalyzer2Menu.setDisable(value);
+  private void setMenusInputTransitions(boolean value) {
+    if (inputTokensReader != null && program != null && statesController != null)
+      runSyntaxAnalyzer2Menu.setDisable(value);
   }
 
-  private void prepareForNewProject(File file, String message){
+  private void prepareForNewProject(File file, String message) {
 //    clearTables();
     sourceCodeArea.clear();
     program = new Program();
@@ -441,20 +461,20 @@ public class ViewController {
     setStatusLabel(message);
   }
 
-  private Program updateProgram(){
-    if (!sourceCodeArea.getText().isEmpty()){
+  private Program updateProgram() {
+    if (!sourceCodeArea.getText().isEmpty()) {
       program.setSourceCode(sourceCodeArea.getText());
     }
-    if(tokensReader != null && tokensReader.getTokensText() != null){
-      program.setTableOfTokens(tokensReader.getMapOfTokens());
+    if (inputTokensReader != null && inputTokensReader.getTokensText() != null) {
+      program.setTableOfTokens(inputTokensReader.getMapOfTokens());
     }
     return program;
   }
 
-  private void executeAnalysis(AbstractAnalyzer analyzer, String successMessage){
+  private void executeAnalysis(AbstractAnalyzer analyzer, String successMessage) {
 //    exceptionsTable.getItems().clear();
     this.exceptions.clear();
-    if(analyzer.analyze()){
+    if (analyzer.analyze()) {
       setStatusLabel(successMessage);
     } else {
       setStatusLabel("Errors found");
@@ -464,25 +484,25 @@ public class ViewController {
   }
 
   @SuppressWarnings("SameParameterValue")
-  private File getFileToSave(String description, String ... extensions) {
+  private File getFileToSave(String description, String... extensions) {
     FileChooser fileChooser = new FileChooser();
     FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(description, extensions);
     fileChooser.getExtensionFilters().add(extFilter);
     return fileChooser.showSaveDialog(this.gp.getPrimaryStage());
   }
 
-  private File getFileToRead(String description, String ... extensions) {
+  private File getFileToRead(String description, String... extensions) {
     FileChooser fileChooser = new FileChooser();
     FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(description, extensions);
     fileChooser.getExtensionFilters().add(extFilter);
     return fileChooser.showOpenDialog(this.gp.getPrimaryStage());
   }
 
-  private void setFileNameLabel(String name){
+  private void setFileNameLabel(String name) {
     fileNameLabel.setText(name);
   }
 
-  private void setStatusLabel(String status){
+  private void setStatusLabel(String status) {
     statusLabel.setText(status);
   }
 }

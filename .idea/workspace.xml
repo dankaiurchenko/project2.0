@@ -2,27 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f8d8585-2616-450d-9b4b-f8ea4862c352" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/Const.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/Ident.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/Token.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/Compiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/BIOException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/BIOException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ConstantsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ConstantsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ExceptionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ExceptionsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/FileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/FileWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/IdentifiersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/IdentifiersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/TokensController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/TokensController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/TransitionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/TransitionsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ViewController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/Program.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/lexical/CharClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/CharClasses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/lexical/Exceptions/DuplicatedVariableException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/Exceptions/DuplicatedVariableException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/lexical/Exceptions/EndOfFileException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/Exceptions/EndOfFileException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/lexical/Exceptions/ScannerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/Exceptions/ScannerException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/lexical/Exceptions/UndeclaredVariableException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/Exceptions/UndeclaredVariableException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/lexical/LexicalAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/LexicalAnalyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/lexical/StatesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/StatesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/lexical/constType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/IdentifierTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/syntactical/SAException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/syntactical/SyntaxAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/sa/SyntaxAnalyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/syntactical2/SAException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/SAException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/syntactical2/StatesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/saMPA/StatesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/syntactical2/SyntaxAnalyzer2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/saMPA/SyntaxAnalyzer2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/project-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/project-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/project-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/project-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/TokensReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/InputTokensReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/CompilerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/CompilerException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/SAException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/SAException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/CharClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/CharClasses.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/Exceptions/ScannerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/Exceptions/ScannerException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/Exceptions/UndeclaredVariableException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/Exceptions/UndeclaredVariableException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/IdentifierTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/IdentifierTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/LexicalAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/LexicalAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/StatesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/LAStatesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/sa/SyntaxAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/sa/SyntaxAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/saMPA/StatesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/saMPA/StatesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/saMPA/SyntaxAnalyzer2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/saMPA/SyntaxAnalyzer2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/binary-code.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/images/computer-micro-chip.png" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -52,18 +59,18 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="4" />
-          <entry key="dummy" value="44" />
+          <entry key="dummy" value="51" />
           <entry key="fxml" value="11" />
-          <entry key="java" value="4251" />
-          <entry key="txt" value="41" />
+          <entry key="java" value="4539" />
+          <entry key="txt" value="107" />
           <entry key="xml" value="32" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="4" />
-          <entry key="JAVA" value="4251" />
-          <entry key="PLAIN_TEXT" value="85" />
+          <entry key="JAVA" value="4539" />
+          <entry key="PLAIN_TEXT" value="158" />
           <entry key="XML" value="43" />
         </counts>
       </usages-collector>
@@ -71,7 +78,7 @@
         <counts>
           <entry key="css" value="1" />
           <entry key="fxml" value="14" />
-          <entry key="java" value="49" />
+          <entry key="java" value="79" />
           <entry key="json" value="2" />
           <entry key="xml" value="2" />
         </counts>
@@ -79,7 +86,7 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CSS" value="1" />
-          <entry key="JAVA" value="49" />
+          <entry key="JAVA" value="79" />
           <entry key="JSON" value="2" />
           <entry key="XML" value="16" />
         </counts>
@@ -89,29 +96,110 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/LexicalAnalyzer.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ViewController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="683">
-              <caret line="192" column="3" lean-forward="true" selection-start-line="192" selection-start-column="3" selection-end-line="192" selection-end-column="3" />
+            <state relative-caret-position="364">
+              <caret line="217" column="3" lean-forward="true" selection-start-line="217" selection-start-column="3" selection-end-line="217" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/InputTokensReader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="55" column="39" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#addToken#0;class#LexicalAnalyzer#0" expanded="true" />
-                <element signature="method#addIdentifier#0;class#LexicalAnalyzer#0" expanded="true" />
-                <element signature="method#addConstant#0;class#LexicalAnalyzer#0" expanded="true" />
-                <element signature="method#setConstType#0;class#LexicalAnalyzer#0" expanded="true" />
-                <element signature="method#analyze#0;class#LexicalAnalyzer#0" expanded="true" />
+                <element signature="e#1691#1718#0" expanded="true" />
+                <element signature="method#Token#0;class#Token#0;class#InputTokensReader#0" expanded="true" />
+                <element signature="e#1940#1941#0" expanded="true" />
+                <element signature="e#1971#1972#0" expanded="true" />
+                <element signature="e#2016#2017#0" expanded="true" />
+                <element signature="e#2041#2042#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/CharClasses.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ConstantsController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="27" column="17" lean-forward="true" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
+            <state relative-caret-position="187">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
               <folding>
-                <element signature="method#contains#0;class#CharClasses#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/Compiler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="20" column="41" lean-forward="true" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/TokensController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/BIOException.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/Ident.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="41">
+              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#310#337#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/Program.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-357">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/Token.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-51">
+              <caret line="15" column="41" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#226#253#0" expanded="true" />
+                <element signature="method#Token#1;class#Token#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -132,7 +220,15 @@
       <find>identifier</find>
       <find>System.out.pr</find>
       <find>gp</find>
+      <find>Program.Identifier</find>
+      <find>Program.Token</find>
+      <find>Program.Const</find>
     </findStrings>
+    <replaceStrings>
+      <replace>Ident</replace>
+      <replace>Token</replace>
+      <replace>Const</replace>
+    </replaceStrings>
     <dirStrings>
       <dir>D:\Documents\GitHub\project\src\main\java\com\tischenko\models\analyzers</dir>
     </dirStrings>
@@ -168,13 +264,26 @@
         <option value="$PROJECT_DIR$/src/main/resources/RootPane.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/com/tischenko/GreatProject.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ViewController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/lexical/LexicalAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/saMPA/SAException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/SAException.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/sa/SyntaxAnalyzer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/CharClasses.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/LexicalAnalyzer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/StatesController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/CharClasses.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/IdentifiersController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/TokensController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/SAException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/FileWriter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ViewController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/BIOException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/Const.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/Ident.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/Token.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/TransitionsController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/InputTokensReader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ConstantsController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/models/Program.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tischenko/Compiler.java" />
       </list>
     </option>
   </component>
@@ -241,47 +350,6 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="tischenko" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="project" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="tischenko" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="project" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="tischenko" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="analyzers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="project" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="tischenko" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="analyzers" type="462c0819:PsiDirectoryNode" />
-              <item name="la" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="project" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="tischenko" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="analyzers" type="462c0819:PsiDirectoryNode" />
-              <item name="saMPA" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -294,6 +362,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.37487537" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -392,22 +461,30 @@
       <option name="project" value="LOCAL" />
       <updated>1547743487840</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="перед тим, як винести іннер класи із програми">
+      <created>1547841172745</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1547841172745</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="886" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28791773" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19794345" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection Results" weight="0.32978722" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32978722" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4993573" visible="true" weight="0.32845744" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4993573" visible="true" weight="0.32845744" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39893618" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -418,10 +495,10 @@
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32978722" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Maven Projects" order="5" visible="true" weight="0.22750643" />
+      <window_info anchor="right" id="Palette" order="2" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
+      <window_info active="true" anchor="right" id="Maven Projects" order="5" visible="true" weight="0.22750643" />
     </layout>
     <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14717224" />
@@ -454,55 +531,14 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="все працює ок" />
     <MESSAGE value="nice)))" />
-    <option name="LAST_COMMIT_MESSAGE" value="nice)))" />
+    <MESSAGE value="перед тим, як винести іннер класи із програми" />
+    <option name="LAST_COMMIT_MESSAGE" value="перед тим, як винести іннер класи із програми" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/FileWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/IdentifiersController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="23" column="2" selection-start-line="23" selection-start-column="2" selection-end-line="23" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/TokensController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ConstantsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ExceptionsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="50" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/saMPA/SyntaxAnalyzer2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="42" column="13" lean-forward="true" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/Exceptions/ScannerException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -517,55 +553,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/IdentifierTypes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="14" column="28" lean-forward="true" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
-          <folding>
-            <element signature="method#getType#0;class#constType#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/CompilerException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="46" selection-start-line="46" selection-end-line="46" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/Program.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
-          <folding>
-            <element signature="method#Program#0;class#Program#0" expanded="true" />
-            <element signature="e#1090#1091#0" expanded="true" />
-            <element signature="e#1128#1129#0" expanded="true" />
-            <element signature="method#addToken#0;class#Program#0" expanded="true" />
-            <element signature="method#getToken#0;class#Program#0" expanded="true" />
-            <element signature="e#2259#2260#0" expanded="true" />
-            <element signature="e#2314#2315#0" expanded="true" />
-            <element signature="e#2344#2345#0" expanded="true" />
-            <element signature="class#Token#0;class#Program#0" expanded="true" />
-            <element signature="method#Token#1;class#Token#0;class#Program#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/StatesController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="36" column="62" selection-start-line="36" selection-start-column="57" selection-end-line="36" selection-end-column="62" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getTransition#0;class#StatesController#0" expanded="true" />
-            <element signature="class#Transition#0;class#StatesController#0" expanded="true" />
-            <element signature="method#Transition#0;class#Transition#0;class#StatesController#0" expanded="true" />
-            <element signature="method#toString#0;class#Transition#0;class#StatesController#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -627,47 +620,10 @@
     <entry file="file://$PROJECT_DIR$/transitionsInJson.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ViewController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="395" column="19" selection-start-line="395" selection-start-column="19" selection-end-line="395" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/Compiler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="28" column="107" selection-start-line="28" selection-start-column="41" selection-end-line="28" selection-end-column="107" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/saMPA/StatesController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#StatesController#0;class#StatesController#0" expanded="true" />
-            <element signature="method#getTransition#0;class#StatesController#0" expanded="true" />
-            <element signature="class#Transition#0;class#StatesController#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1615">
           <caret line="95" selection-start-line="95" selection-end-line="95" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/TransitionsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="24" column="11" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="11" />
-          <folding>
-            <element signature="method#show#0;class#TransitionsController#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -683,26 +639,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-          <folding>
-            <element signature="method#SAException#0;class#SAException#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/CharClasses.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="27" column="17" lean-forward="true" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
-          <folding>
-            <element signature="method#contains#0;class#CharClasses#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/SAException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
           <folding>
             <element signature="method#SAException#0;class#SAException#0" expanded="true" />
           </folding>
@@ -743,18 +679,217 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/LexicalAnalyzer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/LAStatesController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="683">
-          <caret line="192" column="3" lean-forward="true" selection-start-line="192" selection-start-column="3" selection-end-line="192" selection-end-column="3" />
+        <state relative-caret-position="255">
+          <caret line="51" column="40" lean-forward="true" selection-start-line="51" selection-start-column="40" selection-end-line="51" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#addToken#0;class#LexicalAnalyzer#0" expanded="true" />
-            <element signature="method#addIdentifier#0;class#LexicalAnalyzer#0" expanded="true" />
-            <element signature="method#addConstant#0;class#LexicalAnalyzer#0" expanded="true" />
-            <element signature="method#setConstType#0;class#LexicalAnalyzer#0" expanded="true" />
-            <element signature="method#analyze#0;class#LexicalAnalyzer#0" expanded="true" />
+            <element signature="method#Transition#0;class#Transition#0;class#StatesController#0" expanded="true" />
+            <element signature="e#3886#3887#0" expanded="true" />
+            <element signature="e#3917#3918#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/CharClasses.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="17" column="26" lean-forward="true" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/IdentifierTypes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="14" column="28" lean-forward="true" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ExceptionsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="32" column="50" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/IdentifiersController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="30" column="1" lean-forward="true" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/la/LexicalAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="143" selection-start-line="143" selection-end-line="143" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/saMPA/StatesController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="45" selection-start-line="45" selection-end-line="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#StatesController#0;class#StatesController#0" expanded="true" />
+            <element signature="method#getTransition#0;class#StatesController#0" expanded="true" />
+            <element signature="class#Transition#0;class#StatesController#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/saMPA/SyntaxAnalyzer2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="42" column="13" lean-forward="true" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+          <folding>
+            <element signature="method#addException#0;class#SyntaxAnalyzer2#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/analyzers/SAException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="method#SAException#0;class#SAException#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/FileWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="100" column="5" selection-start-line="100" selection-start-column="5" selection-end-line="100" selection-end-column="5" />
+          <folding>
+            <element signature="method#writeIDsFile#0;class#FileWriter#0" expanded="true" />
+            <element signature="method#writeConstantsFile#0;class#FileWriter#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/Const.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" selection-start-line="9" selection-end-line="10" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#253#280#0" expanded="true" />
+            <element signature="e#820#821#0" expanded="true" />
+            <element signature="e#843#844#0" expanded="true" />
+            <element signature="method#equals#0;class#Const#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/Token.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-51">
+          <caret line="15" column="41" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#226#253#0" expanded="true" />
+            <element signature="method#Token#1;class#Token#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/InputTokensReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="55" column="39" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
+          <folding>
+            <element signature="e#1691#1718#0" expanded="true" />
+            <element signature="method#Token#0;class#Token#0;class#InputTokensReader#0" expanded="true" />
+            <element signature="e#1940#1941#0" expanded="true" />
+            <element signature="e#1971#1972#0" expanded="true" />
+            <element signature="e#2016#2017#0" expanded="true" />
+            <element signature="e#2041#2042#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ConstantsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/Ident.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="41">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#310#337#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/models/Program.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-357">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/Compiler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="20" column="41" lean-forward="true" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/TokensController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/BIOException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/TransitionsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="10" column="70" selection-start-line="10" selection-start-column="70" selection-end-line="10" selection-end-column="70" />
+          <folding>
+            <element signature="method#show#0;class#TransitionsController#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tischenko/controllers/ViewController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="217" column="3" lean-forward="true" selection-start-line="217" selection-start-column="3" selection-end-line="217" selection-end-column="3" />
         </state>
       </provider>
     </entry>

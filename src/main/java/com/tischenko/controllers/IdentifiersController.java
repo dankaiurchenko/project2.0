@@ -1,6 +1,6 @@
 package com.tischenko.controllers;
 
-import com.tischenko.models.Program;
+import com.tischenko.models.Ident;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -8,21 +8,24 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class IdentifiersController {
-  private ObservableList<Program.Identifier> identifiers;
+  private final ObservableList<Ident> identifiers;
 
   // таблиця ідентифікаторів
-  @FXML private TableView<Program.Identifier> identifiersTable;
-  @FXML private TableColumn<Program.Identifier, Integer> identifierNumberColumn;
-  @FXML private TableColumn<Program.Identifier, Integer> identifierNameColumn;
-  @FXML private TableColumn<Program.Identifier, String> identifierTypeColumn;
+  @FXML
+  private TableView<Ident> identifiersTable;
+  @FXML
+  private TableColumn<Ident, Integer> identifierNumberColumn;
+  @FXML
+  private TableColumn<Ident, Integer> identifierNameColumn;
+  @FXML
+  private TableColumn<Ident, String> identifierTypeColumn;
 
-  public IdentifiersController(ObservableList<Program.Identifier> identifiers) {
+  IdentifiersController(ObservableList<Ident> identifiers) {
     this.identifiers = identifiers;
   }
 
-
-  void show(){
-    if(!identifiers.isEmpty()){
+  void show() {
+    if (!identifiers.isEmpty()) {
       identifiersTable.setItems(identifiers);
       identifierNameColumn.setCellValueFactory(new PropertyValueFactory<>("token"));
       identifierNumberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));

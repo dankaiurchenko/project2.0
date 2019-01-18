@@ -29,7 +29,7 @@ public class StatesController {
       String beta;
       String stackMark;
       String errorMessage;
-      for(int i = 0 ; i < array.size(); i++){
+      for (int i = 0; i < array.size(); i++) {
         object = array.getJsonObject(i);
         alpha = object.getString("alpha");
         mark = object.getString("mark");
@@ -60,6 +60,13 @@ public class StatesController {
 
   public ObservableList<Transition> getTransitionArrayList() {
     return transitionArrayList;
+  }
+
+  @Override
+  public String toString() {
+    return "StatesController{" +
+            "transitionArrayList=" + transitionArrayList +
+            '}';
   }
 
   @SuppressWarnings({"unused", "WeakerAccess"})
@@ -128,12 +135,5 @@ public class StatesController {
               ", errorMessage='" + errorMessage + '\'' +
               "}\n";
     }
-  }
-
-  @Override
-  public String toString() {
-    return "StatesController{" +
-            "transitionArrayList=" + transitionArrayList +
-            '}';
   }
 }

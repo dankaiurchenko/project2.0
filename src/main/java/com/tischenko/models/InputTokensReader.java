@@ -10,19 +10,19 @@ import javafx.collections.ObservableList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class TokensReader {
-  private transient ObservableList<Token> tableOfTokens = FXCollections.observableArrayList();
-  private transient String tokensText;
-  private transient HashMap<String, String> mapOfTokens = new HashMap<>();
+public class InputTokensReader {
+  private final transient ObservableList<Token> tableOfTokens = FXCollections.observableArrayList();
+  private final transient String tokensText;
+  private final transient HashMap<String, String> mapOfTokens = new HashMap<>();
 
-  public TokensReader(Scanner scanner) {
+  public InputTokensReader(Scanner scanner) {
     StringBuilder tokens = new StringBuilder();
     while (scanner.hasNext()) {
       String token = scanner.next();
       int tokenNumber = scanner.nextInt();
       tokens.append(token).append(System.getProperty("line.separator"));
       tokens.append(String.valueOf(tokenNumber)).append(System.getProperty("line.separator"));
-      tableOfTokens.add(new Token (tokenNumber, token));
+      tableOfTokens.add(new Token(tokenNumber, token));
       mapOfTokens.put(Integer.toString(tokenNumber), token);
       mapOfTokens.put(token, Integer.toString(tokenNumber));
     }
@@ -43,18 +43,19 @@ public class TokensReader {
 
   @Override
   public String toString() {
-    return "TokensReader{" +
+    return "InputTokensReader{" +
             "tableOfTokens=" + tableOfTokens +
             ", tokensText='" + tokensText + '\'' +
             ", mapOfTokens=" + mapOfTokens +
             '}';
   }
 
-  public class Token{
-    private IntegerProperty code;
-    private StringProperty token;
+  @SuppressWarnings("unused")
+  public class Token {
+    private final IntegerProperty code;
+    private final StringProperty token;
 
-    public Token(int code, String token) {
+    Token(int code, String token) {
       this.code = new SimpleIntegerProperty(code);
       this.token = new SimpleStringProperty(token);
     }

@@ -110,19 +110,19 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
   }
 
   private boolean analyzeRange() {
-    if(analyzeExp()){
-      if(nextTokenEqualTo("..")){
-        if(analyzeExp()){
+    if (analyzeExp()) {
+      if (nextTokenEqualTo("..")) {
+        if (analyzeExp()) {
           return true;
-        }else addException("An expression problem");
-      }else addException("An '..' is missing");
+        } else addException("An expression problem");
+      } else addException("An '..' is missing");
     }
     return false;
   }
 
   private boolean analyzeUnconditionalTransition() {
-    if(nextTokenEqualTo("goto")){
-      if(nextTokenEqualTo("Ident")){
+    if (nextTokenEqualTo("goto")) {
+      if (nextTokenEqualTo("Ident")) {
         return true;
       } else addException("An label identifier is missing");
     }
@@ -130,10 +130,10 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
   }
 
   private boolean analyzeTagging() {
-    if(nextTokenEqualTo("Ident")){
-      if(nextTokenEqualTo(":")){
+    if (nextTokenEqualTo("Ident")) {
+      if (nextTokenEqualTo(":")) {
         return true;
-      }else addException("An ':' is missing");
+      } else addException("An ':' is missing");
     }
     return false;
   }
@@ -172,7 +172,7 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
         if (analyzeExp()) {
           return true;
         } else addException("Expression problem");
-      } else if(nextTokenEqualTo(":")) {
+      } else if (nextTokenEqualTo(":")) {
         return true;
       } else addException("An ':' or '=' is missing");
     }
@@ -209,7 +209,7 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
 
   private boolean analyzeMulti() {
     if (analyzePrimaryExp()) {
-      while (nextTokenEqualTo("**") ) {
+      while (nextTokenEqualTo("**")) {
         if (!analyzePrimaryExp()) {
           addException("There is an PrimaryExp problem");
           return false;
@@ -242,7 +242,7 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
       if (analyzeAttitude()) {
         if (nextTokenEqualTo("then")) {
           if (analyzeUnconditionalTransition()) {
-              return true;
+            return true;
           } else addException("Problem with unconditional transition");
         } else addException("An 'then' in fork operator is missing");
       } else addException("There is an attitude problem");

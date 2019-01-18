@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 @SuppressWarnings("unused")
-public class CompilerException  implements Serializable {
+public class CompilerException implements Serializable {
   private transient IntegerProperty number;
   private transient StringProperty message;
   private transient IntegerProperty line;
@@ -36,7 +36,7 @@ public class CompilerException  implements Serializable {
     s.writeUTF(analyzer.getValueSafe());
   }
 
-  private void readObject(ObjectInputStream s) throws IOException{
+  private void readObject(ObjectInputStream s) throws IOException {
     initMethod();
     number.set(s.readInt());
     message.set(s.readUTF());
@@ -46,7 +46,7 @@ public class CompilerException  implements Serializable {
   }
 
 
-  private void initMethod(){
+  private void initMethod() {
     this.number = new SimpleIntegerProperty();
     this.message = new SimpleStringProperty();
     this.line = new SimpleIntegerProperty();

@@ -9,22 +9,28 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ExceptionsController {
 
-  private ObservableList<CompilerException> exceptions;
+  private final ObservableList<CompilerException> exceptions;
 
   // таблиця виключень
-  @FXML private TableView<CompilerException> exceptionsTable;
-  @FXML private TableColumn<CompilerException, Integer> exceptionNumberColumn;
-  @FXML private TableColumn<CompilerException, String> exceptionMessageColumn;
-  @FXML private TableColumn<CompilerException, Integer> exceptionLineColumn;
-  @FXML private TableColumn<CompilerException, String> exceptionTokenColumn;
-  @FXML private TableColumn<CompilerException, String> exceptionAnalyzerColumn;
+  @FXML
+  private TableView<CompilerException> exceptionsTable;
+  @FXML
+  private TableColumn<CompilerException, Integer> exceptionNumberColumn;
+  @FXML
+  private TableColumn<CompilerException, String> exceptionMessageColumn;
+  @FXML
+  private TableColumn<CompilerException, Integer> exceptionLineColumn;
+  @FXML
+  private TableColumn<CompilerException, String> exceptionTokenColumn;
+  @FXML
+  private TableColumn<CompilerException, String> exceptionAnalyzerColumn;
 
 
   ExceptionsController(ObservableList<CompilerException> exceptions) {
     this.exceptions = exceptions;
   }
 
-  void show(){
+  void show() {
     exceptionsTable.setItems(exceptions);
     exceptionNumberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
     exceptionMessageColumn.setCellValueFactory(new PropertyValueFactory<>("message"));

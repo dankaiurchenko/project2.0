@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -13,6 +12,10 @@ import java.io.IOException;
 public class Compiler extends Application {
 
   private Stage primaryStage;
+
+  public static void main(String[] args) {
+    Application.launch(args);
+  }
 
   @Override
   public void start(Stage primaryStage) {
@@ -25,11 +28,6 @@ public class Compiler extends Application {
       ViewController controller = fxmlLoader.getController();
       controller.setGp(this);
 
-      try {
-        this.primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("images/binary-code.png")));
-      } catch (Exception e) {
-        System.out.println("icon not found");
-      }
       this.primaryStage.setScene(new Scene(rootLayout));
       this.primaryStage.show();
 
@@ -40,10 +38,6 @@ public class Compiler extends Application {
 
   public Stage getPrimaryStage() {
     return primaryStage;
-  }
-
-  public static void main(String[] args) {
-    Application.launch(args);
   }
 
 }

@@ -8,11 +8,11 @@ public enum IdentifierTypes implements Serializable {
   SHORT("short"),
   LABEL("label");
 
+  private final String name;
+
   IdentifierTypes(String name) {
     this.name = name;
   }
-
-  private final String name;
 
   static public IdentifierTypes getType(String token) {
     if (PROGRAM.name.equals(token)) return PROGRAM;
