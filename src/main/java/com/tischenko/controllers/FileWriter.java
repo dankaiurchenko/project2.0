@@ -9,6 +9,7 @@ import com.tischenko.models.analyzers.saMPA.SyntaxAnalyzer2;
 import javafx.collections.ObservableList;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 class FileWriter {

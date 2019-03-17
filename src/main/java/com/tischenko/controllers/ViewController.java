@@ -9,6 +9,7 @@ import com.tischenko.models.analyzers.la.LexicalAnalyzer;
 import com.tischenko.models.analyzers.sa.SyntaxAnalyzer;
 import com.tischenko.models.analyzers.saMPA.StatesController;
 import com.tischenko.models.analyzers.saMPA.SyntaxAnalyzer2;
+import com.tischenko.models.analyzers.saRelationTableBased.PrecedenceRelationController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,6 +23,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class ViewController {
@@ -238,6 +240,33 @@ public class ViewController {
 //      System.out.println(inputTokensReader.getTokensText());
     }
   }
+//D:\Projects\3course\compilers\настя\grammar.txt
+
+  public void openGrammarFile() {
+    File file = getFileToRead("TXT files (*.txt)", "*.txt");
+    if (file != null) {
+      try (BufferedReader reader = new BufferedReader(
+              new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+        PrecedenceRelationController pRController = new PrecedenceRelationController(reader);
+        setStatusLabel("Grammar file opened");
+        setMenusInputTokens(false);
+        writeRelationTable(file, pRController);
+        setStatusLabel("Grammar relation table is written to a file");
+      } catch (FileNotFoundException ex) {
+        showErrorDialog("File not found", "Try another file, please");
+      } catch (BIOException e) {
+        showErrorDialog(e.getMessage(), "Valid your grammar!");
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  private void writeRelationTable(File file, PrecedenceRelationController pRController) throws BIOException {
+    RelationTableWriter relationTableWriter = new RelationTableWriter(
+            pRController.getRelationTable(), pRController.getMaxTokenLength());
+    relationTableWriter.saveRelationsTable(file);
+  }
 
   public void openAnalyzerConfiguration() {
     File file = getFileToRead("JSON files (*.json)", "*.json");
@@ -352,6 +381,7 @@ public class ViewController {
     }
 
   }
+
 
   private void showConstants() {
     try {

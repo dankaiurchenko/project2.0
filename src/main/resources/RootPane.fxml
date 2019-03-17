@@ -36,6 +36,7 @@
             <Menu mnemonicParsing="false" text="Analyze">
                   <MenuItem mnemonicParsing="false" onAction="#openTokensFile" text="Open tokens file..." />
                   <MenuItem mnemonicParsing="false" onAction="#openAnalyzerConfiguration" text="Open analyzer configuration file..." />
+                  <MenuItem mnemonicParsing="false" onAction="#openGrammarFile" text="Open grammar file..." />
                 <SeparatorMenuItem mnemonicParsing="false" />
                 <MenuItem fx:id="runLexicalAnalyzerMenu" disable="true" mnemonicParsing="false" onAction="#runLexicalAnalyzer" text="Run lexical analyzer" />
                <MenuItem fx:id="runSyntaxAnalyzerMenu" disable="true" mnemonicParsing="false" onAction="#runSyntaxAnalyzer" text="Run syntactic analyzer" />
