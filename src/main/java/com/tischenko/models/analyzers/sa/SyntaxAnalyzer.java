@@ -166,7 +166,6 @@ public class SyntaxAnalyzer extends AbstractAnalyzer {
 
 
   private boolean analyzeAssignmentOrTagging() {
-    //TODO навзви ексепшенів
     if (nextTokenEqualTo("Ident")) {
       if (nextTokenEqualTo("=")) {
         if (analyzeExp()) {
