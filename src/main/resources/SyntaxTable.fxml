@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane stylesheets="@style.css"  xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.tischenko.controllers.SyntaxTabController"
+            minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+
+    <TableView fx:id="analyzeFlowTable" layoutX="199.0" layoutY="23.0" prefHeight="352.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columns>
+            <TableColumn fx:id="stackColumn2" editable="false" prefWidth="75.0" sortable="false" text="Stack" />
+            <TableColumn fx:id="relationColumn" editable="false" maxWidth="300.0" prefWidth="75.0" sortable="false" text="Relation" />
+            <TableColumn fx:id="inputColumn" editable="false" prefWidth="75.0" sortable="false" text="Input" />
+            <TableColumn fx:id="basisColumn" maxWidth="2000.0" prefWidth="75.0" text="Basis" />
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+    </TableView>
+</AnchorPane>

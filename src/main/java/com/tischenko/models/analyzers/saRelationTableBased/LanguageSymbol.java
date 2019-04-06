@@ -1,5 +1,7 @@
 package com.tischenko.models.analyzers.saRelationTableBased;
 
+import com.tischenko.models.Token;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
@@ -11,11 +13,30 @@ class LanguageSymbol {
   private ArrayList<Rule> rules;
   private final ArrayList<LanguageSymbol> firstPlus = new ArrayList<>();
   private final ArrayList<LanguageSymbol> lastPlus = new ArrayList<>();
+  private int line;
 
   LanguageSymbol(String stringRepresentation) {
     this.stringRepresentation = stringRepresentation;
     this.isTerminal = true;
     this.rules = new ArrayList<>();
+  }
+
+  LanguageSymbol(Token token) {
+    if(token.getCode() == 39) {
+      this.stringRepresentation = "Const";
+    } else if (token.getCode() == 38){
+      this.stringRepresentation = "Ident";
+    } else {
+      this.stringRepresentation = token.getToken();
+    }
+    this.isTerminal = true;
+    this.rules = new ArrayList<>();
+    this.line = token.getLine();
+    Token token1 = token;
+  }
+
+  int getLine() {
+    return line;
   }
 
   void setRules(ArrayList<Rule> rules) {
@@ -47,6 +68,16 @@ class LanguageSymbol {
       setFirstPlus();
     }
     return firstPlus;
+  }
+
+  //коли знайшли основу
+  boolean hasRule(Rule rule){
+    for(Rule r : this.rules){
+      if(r.equals(rule)){
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override

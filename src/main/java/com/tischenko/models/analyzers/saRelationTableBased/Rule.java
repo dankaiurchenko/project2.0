@@ -3,12 +3,20 @@ package com.tischenko.models.analyzers.saRelationTableBased;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Stack;
 
 class Rule {
   private final LinkedList<LanguageSymbol> symbols;
 
   public Rule() {
     symbols = new LinkedList<>();
+  }
+
+  Rule(LinkedList<LanguageSymbol> basis) {
+    this.symbols = new LinkedList<>();
+    while(!basis.isEmpty()){
+      this.symbols.add(basis.pop());
+    }
   }
 
   public void addSymbolToRule(LanguageSymbol symbol){

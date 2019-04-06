@@ -20,16 +20,19 @@ class GrammarParser {
 
   public void parseSymbol(String line, LanguageSymbol symbol) throws BIOException {
 //    new PrintStream(System.out, true, StandardCharsets.UTF_8).println(line);
-    String[] rules;
-    String[] nameAndRule = line.split("::=");
-    if(nameAndRule.length == 2){
-      rules = nameAndRule[1].trim().split("\\|");
-      if(!symbol.hasNoRules()){
-        throw new BIOException("Symbol is doubled");
-      }
-      symbol.setRules(parseRules(rules));
-      symbol.setTerminal(false);
-    } else throw new BIOException("Invalid grammar rule");
+//    System.out.println(line);
+    if (!line.trim().isEmpty()) {
+      String[] rules;
+      String[] nameAndRule = line.split("::=");
+      if(nameAndRule.length == 2){
+        rules = nameAndRule[1].trim().split("\\|");
+        if(!symbol.hasNoRules()){
+          throw new BIOException("Symbol is doubled");
+        }
+        symbol.setRules(parseRules(rules));
+        symbol.setTerminal(false);
+      } else throw new BIOException("Invalid grammar rule");
+    }
   }
 
 

@@ -9,9 +9,12 @@ import com.tischenko.models.analyzers.la.LexicalAnalyzer;
 import com.tischenko.models.analyzers.sa.SyntaxAnalyzer;
 import com.tischenko.models.analyzers.saMPA.StatesController;
 import com.tischenko.models.analyzers.saMPA.SyntaxAnalyzer2;
+import com.tischenko.models.analyzers.saRelationTableBased.ExtendedStateDump;
 import com.tischenko.models.analyzers.saRelationTableBased.PrecedenceRelationController;
+import com.tischenko.models.analyzers.saRelationTableBased.SyntacticalAnalyzer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -81,6 +84,7 @@ public class ViewController {
   private MenuItem runSyntaxAnalyzer2Menu;
   @FXML
   private MenuItem saveTablesMenu;
+  private PrecedenceRelationController precedenceRelationController;
 
   public ViewController() {
   }
@@ -150,12 +154,14 @@ public class ViewController {
 
   public void saveSourceCode() {
     File file = getFileToSave("TXT files (*.txt)", "*.txt");
-    try {
-      updateProgram();
-      fileWriter.writeSourceCodeIntoFile(file, sourceCodeArea.getText());
-      setStatusLabel("Source code is saved successfully");
-    } catch (BIOException e) {
-      showErrorDialog("Error occurred", "Please, check out the file and the program source code");
+    if (file != null) {
+      try {
+        updateProgram();
+        fileWriter.writeSourceCodeIntoFile(file, sourceCodeArea.getText());
+        setStatusLabel("Source code is saved successfully");
+      } catch (BIOException e) {
+        showErrorDialog("Error occurred", "Please, check out the file and the program source code");
+      }
     }
   }
 
@@ -171,25 +177,29 @@ public class ViewController {
   }
 
   public void runLexicalAnalyzer() {
-    if (sourceCodeArea.getText().isEmpty()) {
-      showErrorDialog("Lexical Analyzer Error occurred", "Please, write some code before lexical analysis");
-    } else if (inputTokensReader == null || inputTokensReader.getTableOfTokens().isEmpty()) {
-      showErrorDialog("Lexical Analyzer Error occurred", "Please, check out the input table of tokens");
-    } else {
-//      clearTables();
-      program.cleanup().setTableOfTokens(inputTokensReader.getMapOfTokens());
-      executeAnalysis(new LexicalAnalyzer(new StringReader(sourceCodeArea.getText()), program), "Lexical analysis done successfully");
-      showTokens();
-      showIDs();
-      showConstants();
-      saveTablesMenu.setDisable(false);
-      lastLexical = true;
+    try {
+      if (inputTokensReader == null || inputTokensReader.getTableOfTokens().isEmpty()) {
+        openTokensFile();
+      }
+      if (sourceCodeArea.getText().isEmpty()) {
+        showErrorDialog("Lexical Analyzer Error occurred", "Please, write some code before lexical analysis");
+      } else {
+        program.cleanup().setTableOfTokens(inputTokensReader.getMapOfTokens());
+        executeAnalysis(new LexicalAnalyzer(new StringReader(sourceCodeArea.getText()), program), "Lexical analysis done successfully");
+        showTokens();
+        showIDs();
+        showConstants();
+        saveTablesMenu.setDisable(false);
+        lastLexical = true;
+      }
+    } catch (BIOException e) {
+      showErrorDialog(e.getMessage(), "Try another file, please");
     }
   }
 
   public void runSyntaxAnalyzer() {
 //    System.out.println(program.getExceptions());
-    if (program.getTokens() == null || program.getTokens().isEmpty()) {
+    if (program == null || program.getTokens() == null || program.getTokens().isEmpty()) {
       showErrorDialog("Syntax Analyzer Error occurred", "Please, produce lexical analysis before syntactical one");
     } else if (!exceptions.isEmpty() && lastLexical) {
       showErrorDialog("Syntax Analyzer Error occurred", "Please, produce valid lexical analysis before syntactical one");
@@ -202,63 +212,61 @@ public class ViewController {
   }
 
   public void runSyntax2Analyzer() {
-    program.clearTransitions();
-    if (program.getTokens() == null || program.getTokens().isEmpty()) {
-      showErrorDialog("Syntax Analyzer Error occurred", "Please, produce lexical analysis before syntactical one");
-    } else if (!exceptions.isEmpty() && lastLexical) {
-      showErrorDialog("Syntax Analyzer Error occurred", "Please, produce valid lexical analysis before syntactical one");
-    } else if (statesController == null || statesController.getTransitionArrayList().isEmpty()) {
-      showErrorDialog("Syntax Analyzer Error occurred", "Please, specify MPA analyzer transition table");
-    } else if (program.getTableOfTokens() == null || program.getTableOfTokens().isEmpty()) {
-      showErrorDialog("Syntax Analyzer Error occurred", "Please, check out the input table of tokens");
-    } else {
-      SyntaxAnalyzer2 analyzer2 = new SyntaxAnalyzer2(program, statesController);
-      executeAnalysis(analyzer2, "Syntactical(MPA) analysis done successfully");
-      showTransitions();
-      lastLexical = false;
+    try {
+      if (statesController == null || statesController.getTransitionArrayList().isEmpty()) {
+        openAnalyzerConfiguration();
+      }
+      if (program == null || program.getTokens() == null || program.getTokens().isEmpty()) {
+        showErrorDialog("Syntax Analyzer Error occurred", "Please, produce lexical analysis before syntactical one");
+      } else if (!exceptions.isEmpty() && lastLexical) {
+        showErrorDialog("Syntax Analyzer Error occurred", "Please, produce valid lexical analysis before syntactical one");
+      } else if (program.getTableOfTokens() == null || program.getTableOfTokens().isEmpty()) {
+        showErrorDialog("Syntax Analyzer Error occurred", "Please, check out the input table of tokens");
+      } else {
+        program.clearTransitions();
+        SyntaxAnalyzer2 analyzer2 = new SyntaxAnalyzer2(program, statesController);
+        executeAnalysis(analyzer2, "Syntactical(MPA) analysis done successfully");
+        showTransitions();
+        lastLexical = false;
+      }
+    } catch (BIOException e) {
+      showErrorDialog("Invalid file", "Try another file, please");
     }
+
   }
 
-  public void openTokensFile() {
-    File file = getFileToRead("TXT files (*.txt)", "*.txt");
-    if (file != null) {
-      try (Scanner s = new Scanner(file)) {
-        inputTokensReader = new InputTokensReader(s);
-        inputTokensTable.getItems().clear();
-        if (!inputTokensReader.getTableOfTokens().isEmpty()) {
-          //заповнюємо таблиці токенів, ід, конст
-          inputTokensTable.setItems(inputTokensReader.getTableOfTokens());
-          codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
-          tokenColumn.setCellValueFactory(new PropertyValueFactory<>("token"));
-        }
-        setStatusLabel("Input tokens file opened");
-        setMenusInputTokens(false);
-        setMenusInputTransitions(false);
-      } catch (FileNotFoundException ex) {
-        showErrorDialog("File not found", "Try another file, please");
+  private void openTokensFile() throws BIOException {
+//    File file = getFileToRead("TXT files (*.txt)", "*.txt");
+    //TODO
+    File file = new File("D:\\Projects\\3course\\compilers\\настя\\tokens.txt");
+    try (Scanner s = new Scanner(file)) {
+      inputTokensReader = new InputTokensReader(s);
+      inputTokensTable.getItems().clear();
+      if (!inputTokensReader.getTableOfTokens().isEmpty()) {
+        //заповнюємо таблиці токенів, ід, конст
+        inputTokensTable.setItems(inputTokensReader.getTableOfTokens());
+        codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
+        tokenColumn.setCellValueFactory(new PropertyValueFactory<>("token"));
       }
+      setStatusLabel("Input tokens file opened");
+      setMenusInputTokens(false);
+      setMenusInputTransitions(false);
+    } catch (FileNotFoundException ex) {
+      throw new BIOException("File not found");
+    }
 //      System.out.println(inputTokensReader.getTokensText());
-    }
   }
-//D:\Projects\3course\compilers\настя\grammar.txt
 
-  public void openGrammarFile() {
-    File file = getFileToRead("TXT files (*.txt)", "*.txt");
-    if (file != null) {
-      try (BufferedReader reader = new BufferedReader(
-              new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
-        PrecedenceRelationController pRController = new PrecedenceRelationController(reader);
-        setStatusLabel("Grammar file opened");
-        setMenusInputTokens(false);
-        writeRelationTable(file, pRController);
-        setStatusLabel("Grammar relation table is written to a file");
-      } catch (FileNotFoundException ex) {
-        showErrorDialog("File not found", "Try another file, please");
-      } catch (BIOException e) {
-        showErrorDialog(e.getMessage(), "Valid your grammar!");
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+  private void openGrammarFile() throws IOException, BIOException {
+    //TODO
+    File file = new File("D:\\Projects\\3course\\compilers\\настя\\grammar.txt");
+    try (BufferedReader reader = new BufferedReader(
+            new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+      precedenceRelationController = new PrecedenceRelationController(reader);
+      setStatusLabel("Grammar file opened");
+      setMenusInputTokens(false);
+      writeRelationTable(file, precedenceRelationController);
+      setStatusLabel("Grammar relation table is written to a file");
     }
   }
 
@@ -268,18 +276,14 @@ public class ViewController {
     relationTableWriter.saveRelationsTable(file);
   }
 
-  public void openAnalyzerConfiguration() {
-    File file = getFileToRead("JSON files (*.json)", "*.json");
-    if (file != null) {
-      try {
-        statesController = new StatesController(file);
-        showTransitionConfigurations();
-        setMenusInputTransitions(false);
-        setStatusLabel("MPA analyzer configuration table opened");
-      } catch (BIOException e) {
-        showErrorDialog("Invalid file", "Try another file, please");
-      }
-    }
+  private void openAnalyzerConfiguration() throws BIOException {
+    //TODO
+    File file = new File("D:\\Projects\\3course\\compilers\\настя\\transitionsInJson.json");
+    statesController = new StatesController(file);
+    showTransitionConfigurations();
+    setMenusInputTransitions(false);
+    setStatusLabel("MPA analyzer configuration table opened");
+
   }
 
   public void quit() {
@@ -456,6 +460,24 @@ public class ViewController {
 
   }
 
+  private void showAnalyzeFlow(ObservableList<ExtendedStateDump> stateDumps) {
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+              .getResource("/SyntaxTable.fxml"));
+      fxmlLoader.setControllerFactory(c -> new SyntaxTabController());
+      AnchorPane root = fxmlLoader.load();
+      Scene scene = new Scene(root, 900, 600);
+      Stage stage = new Stage();
+      stage.setTitle("Syntax analyze flow");
+      stage.setScene(scene);
+      ((SyntaxTabController) fxmlLoader.getController()).show(stateDumps);
+      stage.show();
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
+      showErrorDialog("Error occurred", "Try later");
+    }
+  }
+
   private void setMenusProgram(boolean value) {
     closeProjectMenu.setDisable(value);
     saveMenu.setDisable(value);
@@ -535,4 +557,30 @@ public class ViewController {
   private void setStatusLabel(String status) {
     statusLabel.setText(status);
   }
+
+  public void runSyntax3Analyzer() {
+    try {
+      openGrammarFile();
+      if (program == null || program.getTokens() == null || program.getTokens().isEmpty()) {
+        showErrorDialog("Syntax Analyzer Error occurred", "Please, produce lexical analysis before syntactical one");
+      } else if (!exceptions.isEmpty() && lastLexical) {
+        showErrorDialog("Syntax Analyzer Error occurred", "Please, produce valid lexical analysis before syntactical one");
+      } else if (precedenceRelationController == null || precedenceRelationController.relationsIsEmpty()) {
+        showErrorDialog("No grammar specified", "Please, check out your grammar");
+      } else {
+        SyntacticalAnalyzer analyzer3 = new SyntacticalAnalyzer(program, precedenceRelationController);
+        executeAnalysis(analyzer3, "Relation based syntax analysis done successfully");
+        showAnalyzeFlow(analyzer3.getStateDumps());
+        lastLexical = false;
+      }
+    } catch (FileNotFoundException ex) {
+      showErrorDialog("File not found (grammar file)", "Try another file, please");
+    } catch (BIOException e) {
+      showErrorDialog(e.getMessage(), "Valid your grammar!");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
 }
+

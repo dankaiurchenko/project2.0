@@ -21,7 +21,7 @@ public class InputTokensReader {
       String token = scanner.next();
       int tokenNumber = scanner.nextInt();
       tokens.append(token).append(System.getProperty("line.separator"));
-      tokens.append(String.valueOf(tokenNumber)).append(System.getProperty("line.separator"));
+      tokens.append(tokenNumber).append(System.getProperty("line.separator"));
       tableOfTokens.add(new Token(tokenNumber, token));
       mapOfTokens.put(Integer.toString(tokenNumber), token);
       mapOfTokens.put(token, Integer.toString(tokenNumber));
