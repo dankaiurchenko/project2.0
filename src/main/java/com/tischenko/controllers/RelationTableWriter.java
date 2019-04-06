@@ -16,7 +16,7 @@ class RelationTableWriter {
   RelationTableWriter(LinkedHashMap<String, LinkedHashMap<String, String>> relationTable, int maxTokenLength) {
     this.relationTable = relationTable;
     this.maxTokenLength = maxTokenLength;
-    this.totalLength = maxTokenLength;
+    this.totalLength = maxTokenLength + 3;
   }
 
   void saveRelationsTable(File file) throws BIOException {
