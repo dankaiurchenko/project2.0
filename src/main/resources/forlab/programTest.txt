@@ -1,0 +1,17 @@
+Program a111  integer : a, b ;  short : c , d; label : t; { 
+a = 11 - 1 ; 
+t : ;  # it will be ignored 
+readLine( : b, c) ;
+writeLine( : a, b) ; 
+
+do 
+	goto t;
+while a < b or b < c ;   #just a comment
+
+if a != 16e2 
+then goto t;
+}
+
+
+
+
