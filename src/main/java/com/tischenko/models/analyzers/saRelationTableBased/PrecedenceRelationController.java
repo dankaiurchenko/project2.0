@@ -34,7 +34,9 @@ public class PrecedenceRelationController {
   }
 
   private void setMaxTokenLength(String string) {
-    this.maxTokenLength = string.length();
+    if(string.trim().length() > maxTokenLength){
+      maxTokenLength = string.trim().length();
+    }
   }
 
   private void initializeRelationTable() {

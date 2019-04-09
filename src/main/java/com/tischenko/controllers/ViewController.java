@@ -237,7 +237,7 @@ public class ViewController {
 
   private void openTokensFile() throws BIOException {
 //    File file = getFileToRead("TXT files (*.txt)", "*.txt");
-    //TODO
+    //TODO absolute path to tokens file
     File file = new File("D:\\Projects\\3course\\compilers\\настя\\tokens.txt");
     try (Scanner s = new Scanner(file)) {
       inputTokensReader = new InputTokensReader(s);
@@ -258,7 +258,7 @@ public class ViewController {
   }
 
   private void openGrammarFile() throws IOException, BIOException {
-    //TODO
+    //TODO absolute path to grammarFile
     File file = new File("D:\\Projects\\3course\\compilers\\настя\\grammar.txt");
     try (BufferedReader reader = new BufferedReader(
             new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
@@ -277,7 +277,7 @@ public class ViewController {
   }
 
   private void openAnalyzerConfiguration() throws BIOException {
-    //TODO
+    //TODO absolute path to configuration json file
     File file = new File("D:\\Projects\\3course\\compilers\\настя\\transitionsInJson.json");
     statesController = new StatesController(file);
     showTransitionConfigurations();
