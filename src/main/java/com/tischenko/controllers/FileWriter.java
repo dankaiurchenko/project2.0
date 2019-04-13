@@ -5,11 +5,9 @@ import com.tischenko.models.Ident;
 import com.tischenko.models.Program;
 import com.tischenko.models.Token;
 import com.tischenko.models.analyzers.CompilerException;
-import com.tischenko.models.analyzers.saMPA.SyntaxAnalyzer2;
 import javafx.collections.ObservableList;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 class FileWriter {
@@ -94,22 +92,6 @@ class FileWriter {
       for (Token token : this.program.getTokens()) {
         formatter.format("%3s %5s %10s %5s %6s %6s" + System.getProperty("line.separator"),
                 token.getNumber(), token.getLine(), token.getToken(), token.getCode(), token.getIdentCode(), token.getConstantCode());
-      }
-    } catch (IOException e) {
-      written = false;
-//      System.out.println(e.getMessage());
-      throw new BIOException(e);
-    }
-  }
-
-  void writeTransitionsFile() throws BIOException {
-    String fileName = addFileNameSpecification(program.getProgramFile().getPath(), "Transitions");
-    try (Formatter formatter = new Formatter(new FileOutputStream(fileName))) {
-      formatter.format("%3s %10s %10s %30s" + System.getProperty("line.separator"),
-              "N", "Input token", "State", "Stack");
-      for (SyntaxAnalyzer2.dumpState transition : this.program.getTransitionTable()) {
-        formatter.format("%3s %10s %10s %30s" + System.getProperty("line.separator"),
-                transition.getNumber(), transition.getToken(), transition.getState(), transition.getStackValue());
       }
     } catch (IOException e) {
       written = false;

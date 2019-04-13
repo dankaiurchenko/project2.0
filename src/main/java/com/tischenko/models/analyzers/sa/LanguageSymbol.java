@@ -1,4 +1,4 @@
-package com.tischenko.models.analyzers.saRelationTableBased;
+package com.tischenko.models.analyzers.sa;
 
 import com.tischenko.models.Token;
 
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 
-class LanguageSymbol {
+public class LanguageSymbol {
 
   private final String stringRepresentation;
   private boolean isTerminal;
@@ -14,11 +14,13 @@ class LanguageSymbol {
   private final ArrayList<LanguageSymbol> firstPlus = new ArrayList<>();
   private final ArrayList<LanguageSymbol> lastPlus = new ArrayList<>();
   private int line;
+  private Token token;
 
   LanguageSymbol(String stringRepresentation) {
     this.stringRepresentation = stringRepresentation;
     this.isTerminal = true;
     this.rules = new ArrayList<>();
+    this.token = new Token(stringRepresentation, 0);
   }
 
   LanguageSymbol(Token token) {
@@ -32,7 +34,7 @@ class LanguageSymbol {
     this.isTerminal = true;
     this.rules = new ArrayList<>();
     this.line = token.getLine();
-    Token token1 = token;
+    this.token = token;
   }
 
   int getLine() {
@@ -168,4 +170,7 @@ class LanguageSymbol {
     }
   }
 
+  public Token getToken() {
+    return token;
+  }
 }

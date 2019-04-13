@@ -1,20 +1,19 @@
 package com.tischenko.controllers;
 
 import com.tischenko.Compiler;
-import com.tischenko.models.Program;
 import com.tischenko.models.InputTokensReader;
+import com.tischenko.models.Program;
 import com.tischenko.models.analyzers.AbstractAnalyzer;
 import com.tischenko.models.analyzers.CompilerException;
 import com.tischenko.models.analyzers.la.LexicalAnalyzer;
-import com.tischenko.models.analyzers.sa.SyntaxAnalyzer;
-import com.tischenko.models.analyzers.saMPA.StatesController;
-import com.tischenko.models.analyzers.saMPA.SyntaxAnalyzer2;
-import com.tischenko.models.analyzers.saRelationTableBased.ExtendedStateDump;
-import com.tischenko.models.analyzers.saRelationTableBased.PrecedenceRelationController;
-import com.tischenko.models.analyzers.saRelationTableBased.SyntacticalAnalyzer;
+import com.tischenko.models.analyzers.poliz.AbstractPoliz;
+import com.tischenko.models.analyzers.poliz.AdvancedPoliz;
+import com.tischenko.models.analyzers.poliz.PolizStateDump;
+import com.tischenko.models.analyzers.sa.ExtendedStateDump;
+import com.tischenko.models.analyzers.sa.PrecedenceRelationController;
+import com.tischenko.models.analyzers.sa.SyntacticalAnalyzer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -33,24 +32,10 @@ public class ViewController {
   private Program program;
   private Compiler gp;
   private FileWriter fileWriter;
-  private StatesController statesController;
   private InputTokensReader inputTokensReader;
   private boolean lastLexical;
   private ObservableList<CompilerException> exceptions = FXCollections.observableArrayList();
-
-  // таблиця конфігурації
-  @FXML
-  private TableView<StatesController.Transition> transitionConfigurationsTable;
-  @FXML
-  private TableColumn<StatesController.Transition, Integer> alphaColumn;
-  @FXML
-  private TableColumn<StatesController.Transition, String> markColumn;
-  @FXML
-  private TableColumn<StatesController.Transition, String> betaColumn;
-  @FXML
-  private TableColumn<StatesController.Transition, Integer> stackColumn;
-  @FXML
-  private TableColumn<StatesController.Transition, String> errorMessageColumn;
+  private AbstractPoliz poliz;
 
   // таблиця вхідних токенів
   @FXML
@@ -59,6 +44,18 @@ public class ViewController {
   private TableColumn<InputTokensReader.Token, Integer> codeColumn;
   @FXML
   private TableColumn<InputTokensReader.Token, String> tokenColumn;
+
+
+  // таблиця ходу розбору
+  @FXML
+  private TableView<PolizStateDump> polizStateDumpTableView;
+  @FXML
+  private TableColumn<PolizStateDump, String> numberPColumn;
+  @FXML
+  private TableColumn<PolizStateDump, String> stackPColumn;
+  @FXML
+  private TableColumn<PolizStateDump, String> polizPColumn;
+
 
   // панель статуса
   @FXML
@@ -79,10 +76,6 @@ public class ViewController {
   @FXML
   private MenuItem runLexicalAnalyzerMenu;
   @FXML
-  private MenuItem runSyntaxAnalyzerMenu;
-  @FXML
-  private MenuItem runSyntaxAnalyzer2Menu;
-  @FXML
   private MenuItem saveTablesMenu;
   private PrecedenceRelationController precedenceRelationController;
 
@@ -101,7 +94,7 @@ public class ViewController {
   }
 
   public void openSourceCode() {
-    File file = getFileToRead("TXT files (*.txt)", "*.txt");
+    File file = getFileToRead("*.txt");
     if (file != null) {
       prepareForNewProject(file, "Source code is opened");
       try (Scanner s = new Scanner(file)) {
@@ -141,9 +134,6 @@ public class ViewController {
       if (!exceptions.isEmpty()) {
         fileWriter.writeExceptionsFile();
       }
-      if (!program.getTransitionTable().isEmpty()) {
-        fileWriter.writeTransitionsFile();
-      }
       if (fileWriter.isWritten()) {
         setStatusLabel("Tables are written successfully");
       }
@@ -173,7 +163,6 @@ public class ViewController {
 //    clearTables();
     setMenusProgram(true);
     setMenusInputTokens(true);
-    setMenusInputTransitions(true);
   }
 
   public void runLexicalAnalyzer() {
@@ -197,44 +186,6 @@ public class ViewController {
     }
   }
 
-  public void runSyntaxAnalyzer() {
-//    System.out.println(program.getExceptions());
-    if (program == null || program.getTokens() == null || program.getTokens().isEmpty()) {
-      showErrorDialog("Syntax Analyzer Error occurred", "Please, produce lexical analysis before syntactical one");
-    } else if (!exceptions.isEmpty() && lastLexical) {
-      showErrorDialog("Syntax Analyzer Error occurred", "Please, produce valid lexical analysis before syntactical one");
-    } else if (program.getTableOfTokens() == null || program.getTableOfTokens().isEmpty()) {
-      showErrorDialog("Syntax Analyzer Error occurred", "Please, check out the input table of tokens");
-    } else {
-      executeAnalysis(new SyntaxAnalyzer(program), "Syntactical analysis done successfully");
-      lastLexical = false;
-    }
-  }
-
-  public void runSyntax2Analyzer() {
-    try {
-      if (statesController == null || statesController.getTransitionArrayList().isEmpty()) {
-        openAnalyzerConfiguration();
-      }
-      if (program == null || program.getTokens() == null || program.getTokens().isEmpty()) {
-        showErrorDialog("Syntax Analyzer Error occurred", "Please, produce lexical analysis before syntactical one");
-      } else if (!exceptions.isEmpty() && lastLexical) {
-        showErrorDialog("Syntax Analyzer Error occurred", "Please, produce valid lexical analysis before syntactical one");
-      } else if (program.getTableOfTokens() == null || program.getTableOfTokens().isEmpty()) {
-        showErrorDialog("Syntax Analyzer Error occurred", "Please, check out the input table of tokens");
-      } else {
-        program.clearTransitions();
-        SyntaxAnalyzer2 analyzer2 = new SyntaxAnalyzer2(program, statesController);
-        executeAnalysis(analyzer2, "Syntactical(MPA) analysis done successfully");
-        showTransitions();
-        lastLexical = false;
-      }
-    } catch (BIOException e) {
-      showErrorDialog("Invalid file", "Try another file, please");
-    }
-
-  }
-
   private void openTokensFile() throws BIOException {
 //    File file = getFileToRead("TXT files (*.txt)", "*.txt");
     //TODO absolute path to tokens file
@@ -250,7 +201,6 @@ public class ViewController {
       }
       setStatusLabel("Input tokens file opened");
       setMenusInputTokens(false);
-      setMenusInputTransitions(false);
     } catch (FileNotFoundException ex) {
       throw new BIOException("File not found");
     }
@@ -259,7 +209,7 @@ public class ViewController {
 
   private void openGrammarFile() throws IOException, BIOException {
     //TODO absolute path to grammarFile
-    File file = new File("D:\\Projects\\3course\\compilers\\настя\\grammar.txt");
+    File file = new File("D:\\Documents\\GitHub\\project\\src\\main\\resources\\forlab\\grammar.txt");
     try (BufferedReader reader = new BufferedReader(
             new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
       precedenceRelationController = new PrecedenceRelationController(reader);
@@ -276,15 +226,6 @@ public class ViewController {
     relationTableWriter.saveRelationsTable(file);
   }
 
-  private void openAnalyzerConfiguration() throws BIOException {
-    //TODO absolute path to configuration json file
-    File file = new File("D:\\Projects\\3course\\compilers\\настя\\transitionsInJson.json");
-    statesController = new StatesController(file);
-    showTransitionConfigurations();
-    setMenusInputTransitions(false);
-    setStatusLabel("MPA analyzer configuration table opened");
-
-  }
 
   public void quit() {
     try {
@@ -427,39 +368,6 @@ public class ViewController {
 
   }
 
-  private void showTransitionConfigurations() {
-    transitionConfigurationsTable.getItems().clear();
-
-    if (statesController != null && !statesController.getTransitionArrayList().isEmpty()) {
-      //заповнюємо таблиці токенів, ід, конст
-      transitionConfigurationsTable.setItems(statesController.getTransitionArrayList());
-      alphaColumn.setCellValueFactory(new PropertyValueFactory<>("alpha"));
-      markColumn.setCellValueFactory(new PropertyValueFactory<>("mark"));
-      betaColumn.setCellValueFactory(new PropertyValueFactory<>("beta"));
-      stackColumn.setCellValueFactory(new PropertyValueFactory<>("stackMark"));
-      errorMessageColumn.setCellValueFactory(new PropertyValueFactory<>("errorMessage"));
-    }
-  }
-
-  private void showTransitions() {
-    try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-              .getResource("/TransitionsView.fxml"));
-      fxmlLoader.setControllerFactory(c -> new TransitionsController(program.getTransitionTable()));
-      AnchorPane root = fxmlLoader.load();
-      Scene scene = new Scene(root, 900, 600);
-      Stage stage = new Stage();
-      stage.setTitle("Table of transitions");
-      stage.setScene(scene);
-      ((TransitionsController) fxmlLoader.getController()).show();
-      stage.show();
-    } catch (IOException ioe) {
-      ioe.printStackTrace();
-      showErrorDialog("Error occurred", "Try later");
-    }
-
-  }
-
   private void showAnalyzeFlow(ObservableList<ExtendedStateDump> stateDumps) {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass()
@@ -488,13 +396,7 @@ public class ViewController {
   private void setMenusInputTokens(boolean value) {
     if (program != null) {
       runLexicalAnalyzerMenu.setDisable(value);
-      runSyntaxAnalyzerMenu.setDisable(value);
     }
-  }
-
-  private void setMenusInputTransitions(boolean value) {
-    if (inputTokensReader != null && program != null && statesController != null)
-      runSyntaxAnalyzer2Menu.setDisable(value);
   }
 
   private void prepareForNewProject(File file, String message) {
@@ -507,7 +409,6 @@ public class ViewController {
     sourceCodeArea.setDisable(false);
     setFileNameLabel(program.getProgramFile().getPath());
     setMenusProgram(false);
-    setMenusInputTransitions(false);
     setMenusInputTokens(false);
     saveTablesMenu.setDisable(true);
     setStatusLabel(message);
@@ -543,9 +444,9 @@ public class ViewController {
     return fileChooser.showSaveDialog(this.gp.getPrimaryStage());
   }
 
-  private File getFileToRead(String description, String... extensions) {
+  private File getFileToRead(String... extensions) {
     FileChooser fileChooser = new FileChooser();
-    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(description, extensions);
+    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", extensions);
     fileChooser.getExtensionFilters().add(extFilter);
     return fileChooser.showOpenDialog(this.gp.getPrimaryStage());
   }
@@ -568,7 +469,8 @@ public class ViewController {
       } else if (precedenceRelationController == null || precedenceRelationController.relationsIsEmpty()) {
         showErrorDialog("No grammar specified", "Please, check out your grammar");
       } else {
-        SyntacticalAnalyzer analyzer3 = new SyntacticalAnalyzer(program, precedenceRelationController);
+        poliz = new AdvancedPoliz(program.getIdents());
+        SyntacticalAnalyzer analyzer3 = new SyntacticalAnalyzer(program, precedenceRelationController, poliz);
         executeAnalysis(analyzer3, "Relation based syntax analysis done successfully");
         showAnalyzeFlow(analyzer3.getStateDumps());
         lastLexical = false;
@@ -582,5 +484,19 @@ public class ViewController {
     }
   }
 
+
+  public void runPoliz() {
+    if (poliz != null && exceptions.isEmpty()) {
+      poliz.execute();
+      setStatusLabel("Poliz executed");
+      polizStateDumpTableView.getItems().clear();
+      if (poliz.getPolizStateDumps() != null && !poliz.getPolizStateDumps().isEmpty()) {
+        polizStateDumpTableView.setItems(poliz.getPolizStateDumps());
+        numberPColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
+        stackPColumn.setCellValueFactory(new PropertyValueFactory<>("stack"));
+        polizPColumn.setCellValueFactory(new PropertyValueFactory<>("poliz"));
+      }
+    }
+  }
 }
 

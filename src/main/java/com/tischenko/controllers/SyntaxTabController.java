@@ -1,6 +1,6 @@
 package com.tischenko.controllers;
 
-import com.tischenko.models.analyzers.saRelationTableBased.ExtendedStateDump;
+import com.tischenko.models.analyzers.sa.ExtendedStateDump;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -15,6 +15,7 @@ public class SyntaxTabController {
   @FXML private TableColumn<ExtendedStateDump, String> relationColumn;
   @FXML private TableColumn<ExtendedStateDump, String> inputColumn;
   @FXML private TableColumn<ExtendedStateDump, String> basisColumn;
+  @FXML private TableColumn<ExtendedStateDump, String> polizColumn;
 
   void show(ObservableList<ExtendedStateDump> stateDumps) {
     clearTable();
@@ -24,6 +25,7 @@ public class SyntaxTabController {
       relationColumn.setCellValueFactory(new PropertyValueFactory<>("relation"));
       inputColumn.setCellValueFactory(new PropertyValueFactory<>("inputStream"));
       basisColumn.setCellValueFactory(new PropertyValueFactory<>("basis"));
+      polizColumn.setCellValueFactory(new PropertyValueFactory<>("poliz"));
     }
   }
 

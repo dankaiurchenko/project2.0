@@ -1,4 +1,4 @@
-<Prog> ::= Program Ident <DeclarationList1> { <OperatorsList1> }
+<Prog> ::= Program <DeclarationList1> { <OperatorsList1> }
 
 <DeclarationList1> ::= <DeclarationList>
 <DeclarationList> ::= <Declaration> ; | <DeclarationList> <Declaration> ;
@@ -10,25 +10,8 @@
 <OperatorsList1> ::= <OperatorsList>
 <OperatorsList> ::= <Operator> ; | <OperatorsList> <Operator> ;
 
-<Operator> ::= <Assignment> | <Input> | <Output> | <Loop> | <Condition> | <Tagging> | <UnconditionalTransition> | <Range>
+<Operator> ::= <Assignment>
 <Assignment> ::= Ident = <Exp1>
-<Input> ::= readLine ( <IdentList1> )
-<Output> ::= writeLine ( <IdentList1> )
-<Loop> ::= do <OperatorsList1> while <LogExp1>
-<Condition> ::= if <Attitude> then <UnconditionalTransition>
-<Tagging> ::= Ident :
-<UnconditionalTransition> ::= goto Ident
-<Range> ::= <Exp> .. <Exp1>
-
-<LogExp1> ::= <LogExp>
-<LogTerm1> ::= <LogTerm>
-<LogMulti1> ::= <LogMulti>
-
-<LogExp> ::= <LogTerm1> | <LogExp> or <LogTerm1>
-<LogTerm> ::= <LogMulti1> | <LogTerm> and <LogMulti1>
-<LogMulti> ::= <Attitude> | [ <LogExp1> ] | not <LogMulti>
-<Attitude> ::= <Exp> <ExpSign> <Exp1>
-<ExpSign> ::= > | < | >= | <= | == | !=
 
 <Exp1> ::= <Exp>
 <Term1> ::= <Term>

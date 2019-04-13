@@ -1,6 +1,5 @@
 package com.tischenko.models;
 
-import com.tischenko.models.analyzers.saMPA.SyntaxAnalyzer2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,7 +14,6 @@ public class Program {
   private String programName;
   private File programFile;
   private HashMap<String, String> tableOfTokens = new HashMap<>();
-  private ObservableList<SyntaxAnalyzer2.dumpState> transitionTable = FXCollections.observableArrayList();
   private ObservableList<Token> tokens = FXCollections.observableArrayList();
   private ObservableList<Ident> idents = FXCollections.observableArrayList();
   private ObservableList<Const> consts = FXCollections.observableArrayList();
@@ -98,18 +96,6 @@ public class Program {
     idents = FXCollections.observableArrayList();
     consts = FXCollections.observableArrayList();
     return this;
-  }
-
-  public void clearTransitions() {
-    transitionTable = FXCollections.observableArrayList();
-  }
-
-  public void addDumpState(SyntaxAnalyzer2.dumpState state) {
-    transitionTable.add(state);
-  }
-
-  public ObservableList<SyntaxAnalyzer2.dumpState> getTransitionTable() {
-    return transitionTable;
   }
 
   @Override

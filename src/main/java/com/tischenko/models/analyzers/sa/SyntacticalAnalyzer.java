@@ -1,8 +1,9 @@
-package com.tischenko.models.analyzers.saRelationTableBased;
+package com.tischenko.models.analyzers.sa;
 
 import com.tischenko.models.Program;
 import com.tischenko.models.Token;
 import com.tischenko.models.analyzers.AbstractAnalyzer;
+import com.tischenko.models.analyzers.poliz.AbstractPoliz;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -11,18 +12,19 @@ import java.util.LinkedList;
 import java.util.Stack;
 
 public class SyntacticalAnalyzer extends AbstractAnalyzer {
-  private final PrecedenceRelationController precedenceRelationController;
-  private final Stack<LanguageSymbol> stack = new Stack<>();
-  private final ObservableList<ExtendedStateDump> stateDumps  = FXCollections.observableArrayList();
+  private PrecedenceRelationController precedenceRelationController;
+  private Stack<LanguageSymbol> stack = new Stack<>();
+  private ObservableList<ExtendedStateDump> stateDumps  = FXCollections.observableArrayList();
+  private AbstractPoliz abstractPoliz;
 
 
   public SyntacticalAnalyzer(Program program,
-                             PrecedenceRelationController precedenceRelationController) {
+                             PrecedenceRelationController precedenceRelationController, AbstractPoliz poliz) {
     super(program);
     this.precedenceRelationController = precedenceRelationController;
     stack.push(new LanguageSymbol("#"));
+    this.abstractPoliz = poliz;
   }
-
 
   @Override
   public boolean analyze() {
@@ -31,7 +33,7 @@ public class SyntacticalAnalyzer extends AbstractAnalyzer {
     String basisString = "";
     loop:while(!tokens.isEmpty()){
       RelationType relationType = getRelationType(stack.peek(), tokens.getFirst());
-      stateDumps.add(new ExtendedStateDump(stack, relationType, tokens, basisString));
+      stateDumps.add(new ExtendedStateDump(stack, relationType, tokens, basisString, abstractPoliz.toString()));
       basisString = "";
       switch (relationType){
         case LESS:
@@ -48,9 +50,10 @@ public class SyntacticalAnalyzer extends AbstractAnalyzer {
               return true;
             }
             basisString = getString(basis);
+            abstractPoliz.addToPoliz((LinkedList<LanguageSymbol>) basis.clone());
             LanguageSymbol parent = precedenceRelationController.getParent(new Rule(basis));
-              if(parent != null){
-                stack.push(parent);
+            if(parent != null){
+              stack.push(parent);
             } else{
               addException("Can't replace the basis with a token (invalid grammar)", stack.peek());
               break loop;
@@ -106,3 +109,4 @@ public class SyntacticalAnalyzer extends AbstractAnalyzer {
     return precedenceRelationController.getRelationType(first, second);
   }
 }
+

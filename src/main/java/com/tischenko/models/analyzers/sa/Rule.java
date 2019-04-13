@@ -1,9 +1,8 @@
-package com.tischenko.models.analyzers.saRelationTableBased;
+package com.tischenko.models.analyzers.sa;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
-import java.util.Stack;
 
 class Rule {
   private final LinkedList<LanguageSymbol> symbols;

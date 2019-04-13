@@ -1,4 +1,4 @@
-package com.tischenko.models.analyzers.saRelationTableBased;
+package com.tischenko.models.analyzers.sa;
 
 public enum RelationType {
   GREATER(">"), LESS("<"), EQUAL("="), UNDEFINED("");

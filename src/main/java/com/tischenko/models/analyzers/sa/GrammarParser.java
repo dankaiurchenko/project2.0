@@ -1,4 +1,4 @@
-package com.tischenko.models.analyzers.saRelationTableBased;
+package com.tischenko.models.analyzers.sa;
 
 
 import com.tischenko.controllers.BIOException;
