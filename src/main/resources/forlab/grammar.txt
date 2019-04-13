@@ -4,7 +4,7 @@
 <DeclarationList> ::= <Declaration> ; | <DeclarationList> <Declaration> ;
 <IdentList1> ::= <IdentList>
 <Declaration> ::= <Type> <IdentList1>
-<Type> ::= integer | short | label
+<Type> ::= integer | short
 <IdentList> ::= : Ident | <IdentList> , Ident
 
 <OperatorsList1> ::= <OperatorsList>

@@ -484,18 +484,21 @@ public class ViewController {
     }
   }
 
-
   public void runPoliz() {
-    if (poliz != null && exceptions.isEmpty()) {
-      poliz.execute();
-      setStatusLabel("Poliz executed");
-      polizStateDumpTableView.getItems().clear();
-      if (poliz.getPolizStateDumps() != null && !poliz.getPolizStateDumps().isEmpty()) {
-        polizStateDumpTableView.setItems(poliz.getPolizStateDumps());
-        numberPColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
-        stackPColumn.setCellValueFactory(new PropertyValueFactory<>("stack"));
-        polizPColumn.setCellValueFactory(new PropertyValueFactory<>("poliz"));
+    try {
+      if (poliz != null && exceptions.isEmpty()) {
+        poliz.execute();
+        setStatusLabel("Poliz executed");
+        polizStateDumpTableView.getItems().clear();
+        if (poliz.getPolizStateDumps() != null && !poliz.getPolizStateDumps().isEmpty()) {
+          polizStateDumpTableView.setItems(poliz.getPolizStateDumps());
+          numberPColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
+          stackPColumn.setCellValueFactory(new PropertyValueFactory<>("stack"));
+          polizPColumn.setCellValueFactory(new PropertyValueFactory<>("poliz"));
+        }
       }
+    } catch (BIOException e) {
+      showErrorDialog(e.getMessage(), "Please, check the program");
     }
   }
 }

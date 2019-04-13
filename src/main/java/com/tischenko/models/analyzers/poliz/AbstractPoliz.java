@@ -1,5 +1,6 @@
 package com.tischenko.models.analyzers.poliz;
 
+import com.tischenko.controllers.BIOException;
 import com.tischenko.models.Ident;
 import com.tischenko.models.analyzers.sa.LanguageSymbol;
 import javafx.collections.FXCollections;
@@ -27,9 +28,7 @@ public abstract class AbstractPoliz {
     return poliz.toString();
   }
 
-  public abstract void execute();
-
-  public abstract double getResult();
+  public abstract void execute() throws BIOException;
 
   public ObservableList<PolizStateDump> getPolizStateDumps(){
     return polizStateDumps;

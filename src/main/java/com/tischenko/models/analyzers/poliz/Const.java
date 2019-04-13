@@ -15,6 +15,8 @@ public class Const implements Valuable, ProgramPart {
 
   @Override
   public String toString() {
-    return  Double.toString(value);
+    if(value - (int)value == 0) {
+     return Integer.toString((int)value);
+    }else  return Double.toString(value);
   }
 }
